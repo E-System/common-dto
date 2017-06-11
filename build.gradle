@@ -4,11 +4,11 @@ import java.nio.file.Paths
 import java.time.LocalDateTime
 
 /*
- * Copyright (c) Extended System - All Rights Reserved
+ * Copyright (c) E-System - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * Written by Extended System team (https://ext-system.com), 2015
+ * Written by E-System team (https://ext-system.com), 2015
  */
 buildscript {
     repositories {
@@ -17,12 +17,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.2.1'
+    gradleVersion = '3.3'
 }
 
 apply from: "build-${profile}.gradle"
