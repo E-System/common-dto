@@ -26,12 +26,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1"
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+    gradleVersion = '4.5'
 }
 
 apply from: "build-${profile}.gradle"
@@ -125,10 +125,10 @@ publishing {
     }
 }
 dependencies {
-    compile "com.fasterxml.jackson.core:jackson-databind:2.8.3"
-    compile "com.fasterxml.jackson.core:jackson-annotations:2.8.3"
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:2.8.11"
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.8.11"
 
-    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
     testCompile "cglib:cglib:3.2.0"
     testCompile "org.objenesis:objenesis:2.2"
 }
