@@ -16,13 +16,16 @@
 
 package com.es.lib.dto;
 
+import org.jsondoc.core.annotation.ApiObject;
+
 /**
  * Response with only data
  *
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class DTOResponse<T> extends DTOBaseResponse<T, Object> {
+@ApiObject(name = "DTOResponse", description = "Simple response with data")
+public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
 
     public DTOResponse() {
         super();

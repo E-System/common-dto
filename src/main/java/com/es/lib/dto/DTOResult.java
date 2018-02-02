@@ -18,6 +18,8 @@ package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 
 import java.io.Serializable;
 
@@ -27,6 +29,7 @@ import java.io.Serializable;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@ApiObject(name = "DTOResult", description = "Request process result")
 public class DTOResult implements Serializable {
 
     /**
@@ -56,28 +59,30 @@ public class DTOResult implements Serializable {
      */
     public static final short SYSTEM_ERROR = 500;
     //-------------------------------------------------------
+    @ApiObjectField(description = "Code", allowedvalues = {"200", "400", "401", "422", "500"}, order = 0)
     private short code;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private DTOLocalizeMessage localizeMessage;
+    @ApiObjectField(description = "Simple message information", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String msg;
+    @ApiObjectField(description = "Localized message information", order = 1)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private DTOLocalizeMessage localizeMessage;
 
-    public DTOResult() {
-    }
+    public DTOResult() { }
 
     public DTOResult(short code) {
         this.code = code;
     }
 
 
-    public DTOResult(short code, DTOLocalizeMessage localizeMessage) {
-        this.code = code;
-        this.localizeMessage = localizeMessage;
-    }
-
     public DTOResult(short code, String msg) {
         this.code = code;
         this.msg = msg;
+    }
+
+    public DTOResult(short code, DTOLocalizeMessage localizeMessage) {
+        this.code = code;
+        this.localizeMessage = localizeMessage;
     }
 
     public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg) {
@@ -94,20 +99,20 @@ public class DTOResult implements Serializable {
         this.code = code;
     }
 
-    public DTOLocalizeMessage getLocalizeMessage() {
-        return localizeMessage;
-    }
-
-    public void setLocalizeMessage(DTOLocalizeMessage localizeMessage) {
-        this.localizeMessage = localizeMessage;
-    }
-
     public String getMsg() {
         return msg;
     }
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public DTOLocalizeMessage getLocalizeMessage() {
+        return localizeMessage;
+    }
+
+    public void setLocalizeMessage(DTOLocalizeMessage localizeMessage) {
+        this.localizeMessage = localizeMessage;
     }
 
     @JsonIgnore
@@ -122,10 +127,10 @@ public class DTOResult implements Serializable {
 
     @Override
     public String toString() {
-        return "DTOResult [" +
+        return "DTOResult{" +
                "code=" + code +
+               ", msg='" + msg + '\'' +
                ", localizeMessage=" + localizeMessage +
-               ", msg='" + msg + "'" +
-               ']';
+               '}';
     }
 }

@@ -17,20 +17,25 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * Message(for localization). Содержит код сообщения и аргументы для формирования сообщения
+ * Message(for localization). Contains message code and arguments for message format
  *
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@ApiObject(name = "DTOLocalizeMessage", description = "Localization message information")
 public class DTOLocalizeMessage {
 
+    @ApiObjectField(description = "Code", order = 0)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String code;
+    @ApiObjectField(description = "Arguments for message format", order = 1)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Collection<String> args;
 

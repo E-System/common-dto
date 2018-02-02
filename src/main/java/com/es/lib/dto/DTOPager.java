@@ -16,6 +16,9 @@
 
 package com.es.lib.dto;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -26,13 +29,20 @@ import java.util.LinkedList;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@ApiObject(name = "DTOPager", description = "Pager")
 public class DTOPager<T> implements Serializable {
 
+    @ApiObjectField(description = "Current page", order = 0)
     private int page;
+    @ApiObjectField(description = "Total elements count", order = 1)
     private long total;
+    @ApiObjectField(description = "Count of elements on page", order = 2)
     private int pageSize;
+    @ApiObjectField(description = "Page elements", order = 3)
     private Collection<T> values;
+    @ApiObjectField(description = "Total pages count", order = 4)
     private int numberOfPages;
+    @ApiObjectField(description = "Page numbers", order = 5)
     private Collection<Integer> pages;
 
     public DTOPager(int page, long total, int pageSize, Collection<T> values) {

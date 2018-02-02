@@ -17,32 +17,38 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 
 import java.io.Serializable;
 
 /**
- * Base response class with data and environment
+ * Environmental response class with data and environment
  *
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class DTOBaseResponse<T, E> implements Serializable {
+@ApiObject(name = "DTOEnvironmentalResponse", description = "Environmental response class")
+public class DTOEnvironmentalResponse<T, E> implements Serializable {
 
+    @ApiObjectField(description = "Result information", order = 0)
     protected DTOResult result;
+    @ApiObjectField(description = "Data object", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected T data;
+    @ApiObjectField(description = "Environment object", order = 2)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected E env;
 
-    public DTOBaseResponse() {
+    public DTOEnvironmentalResponse() {
         result = new DTOResult(DTOResult.BAD_REQUEST);
     }
 
-    private DTOBaseResponse(DTOResult result) {
+    private DTOEnvironmentalResponse(DTOResult result) {
         this.result = result;
     }
 
-    public DTOBaseResponse(DTOResult result, T data) {
+    public DTOEnvironmentalResponse(DTOResult result, T data) {
         this(result);
         this.data = data;
     }
@@ -73,7 +79,7 @@ public class DTOBaseResponse<T, E> implements Serializable {
 
     @Override
     public String toString() {
-        return "DTOBaseResponse{" +
+        return "DTOEnvironmentalResponse{" +
                "result=" + result +
                ", data=" + data +
                ", env=" + env +
