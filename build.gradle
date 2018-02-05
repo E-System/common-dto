@@ -125,8 +125,8 @@ publishing {
     }
 }
 dependencies {
-    compileOnly "com.fasterxml.jackson.core:jackson-databind:2.8.11"
-    compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.8.11"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.11"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.8.11"
     compileOnly "org.jsondoc:jsondoc-core:1.2.18"
 
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
