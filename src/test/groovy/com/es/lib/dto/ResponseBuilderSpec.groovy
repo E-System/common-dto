@@ -67,6 +67,55 @@ class ResponseBuilderSpec extends Specification {
         response.result.code == DTOResult.OK
     }
 
+    def "Building with code in chain is success (OK)"() {
+        when:
+        def response = new ResponseBuilder().ok().build()
+        then:
+        response.result.code == DTOResult.OK
+    }
+
+    def "Building with code in chain is success (BAD_REQUEST)"() {
+        when:
+        def response = new ResponseBuilder().badRequest().build()
+        then:
+        response.result.code == DTOResult.BAD_REQUEST
+    }
+
+    def "Building with code in chain is success (UNAUTHORIZED)"() {
+        when:
+        def response = new ResponseBuilder().unauthorized().build()
+        then:
+        response.result.code == DTOResult.UNAUTHORIZED
+    }
+
+    def "Building with code in chain is success (FORBIDDEN)"() {
+        when:
+        def response = new ResponseBuilder().forbidden().build()
+        then:
+        response.result.code == DTOResult.FORBIDDEN
+    }
+
+    def "Building with code in chain is success (UNPROCESSABLE_ENTITY)"() {
+        when:
+        def response = new ResponseBuilder().unprocessableEntity().build()
+        then:
+        response.result.code == DTOResult.UNPROCESSABLE_ENTITY
+    }
+
+    def "Building with code in chain is success (INTERNAL_SERVER_ERROR)"() {
+        when:
+        def response = new ResponseBuilder().internalServerError().build()
+        then:
+        response.result.code == DTOResult.INTERNAL_SERVER_ERROR
+    }
+
+    def "Building with code in chain is success (SYSTEM_ERROR)"() {
+        when:
+        def response = new ResponseBuilder().systemError().build()
+        then:
+        response.result.code == DTOResult.SYSTEM_ERROR
+    }
+
     def "Building with localized message code is success"() {
         when:
         def msgCode = "message.code"
