@@ -46,6 +46,34 @@ public class ResponseBuilder<T> {
         return this;
     }
 
+    public ResponseBuilder<T> ok() {
+        return code(DTOResult.OK);
+    }
+
+    public ResponseBuilder<T> badRequest() {
+        return code(DTOResult.BAD_REQUEST);
+    }
+
+    public ResponseBuilder<T> unauthorized() {
+        return code(DTOResult.UNAUTHORIZED);
+    }
+
+    public ResponseBuilder<T> forbidden() {
+        return code(DTOResult.FORBIDDEN);
+    }
+
+    public ResponseBuilder<T> unprocessableEntity() {
+        return code(DTOResult.UNPROCESSABLE_ENTITY);
+    }
+
+    public ResponseBuilder<T> internalServerError() {
+        return code(DTOResult.INTERNAL_SERVER_ERROR);
+    }
+
+    public ResponseBuilder<T> systemError() {
+        return code(DTOResult.SYSTEM_ERROR);
+    }
+
     public ResponseBuilder<T> message(String message) {
         this.message = message;
         return this;
@@ -75,18 +103,18 @@ public class ResponseBuilder<T> {
 
     public DTOResponse<T> build() {
         DTOLocalizeMessage dtoLocalizeMessage =
-                messageCode != null ?
-                        new DTOLocalizeMessage(
-                                messageCode,
-                                args
-                        ) : null;
+            messageCode != null ?
+                new DTOLocalizeMessage(
+                    messageCode,
+                    args
+                ) : null;
         return new DTOResponse<>(
-                new DTOResult(
-                        code,
-                        dtoLocalizeMessage,
-                        message
-                ),
-                data
+            new DTOResult(
+                code,
+                dtoLocalizeMessage,
+                message
+            ),
+            data
         );
     }
 
