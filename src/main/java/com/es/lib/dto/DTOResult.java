@@ -42,9 +42,13 @@ public class DTOResult implements Serializable {
      */
     public static final short BAD_REQUEST = 400;
     /**
-     * Ошибка авторизации
+     * Необходима авторизация
      */
     public static final short UNAUTHORIZED = 401;
+    /**
+     * Доступ запрещен
+     */
+    public static final short FORBIDDEN = 403;
     /**
      * Ошибка валидации входных данных
      */
@@ -59,7 +63,7 @@ public class DTOResult implements Serializable {
      */
     public static final short SYSTEM_ERROR = 500;
     //-------------------------------------------------------
-    @ApiObjectField(description = "Code", allowedvalues = {"200", "400", "401", "422", "500"}, order = 0)
+    @ApiObjectField(description = "Code", allowedvalues = {"200", "400", "401", "403", "422", "500"}, order = 0)
     private short code;
     @ApiObjectField(description = "Simple message information", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
