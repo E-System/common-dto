@@ -35,35 +35,43 @@ public class DTOResult implements Serializable {
     /**
      * Успех
      */
+    @Deprecated
     public static final short OK = 200;
     //-------------------------------------------------------
     /**
      * Ошибка обработки
      */
+    @Deprecated
     public static final short BAD_REQUEST = 400;
     /**
      * Необходима авторизация
      */
+    @Deprecated
     public static final short UNAUTHORIZED = 401;
     /**
      * Доступ запрещен
      */
+    @Deprecated
     public static final short FORBIDDEN = 403;
     /**
      * Ошибка валидации входных данных
      */
+    @Deprecated
     public static final short UNPROCESSABLE_ENTITY = 422;
     //-------------------------------------------------------
     /**
      * Внутреняя ошибка сервера
      */
+    @Deprecated
     public static final short INTERNAL_SERVER_ERROR = 500;
     /**
      * Системная ошибка сервера
      */
+    @Deprecated
     public static final short SYSTEM_ERROR = 500;
     //-------------------------------------------------------
     @ApiObjectField(description = "Code", allowedvalues = {"200", "400", "401", "403", "422", "500"}, order = 0)
+    @Deprecated
     private short code;
     @ApiObjectField(description = "Simple message information", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -77,21 +85,24 @@ public class DTOResult implements Serializable {
 
     public DTOResult() { }
 
+    @Deprecated
     public DTOResult(short code) {
         this.code = code;
     }
 
-
+    @Deprecated
     public DTOResult(short code, String msg) {
         this(code);
         this.msg = msg;
     }
 
+    @Deprecated
     public DTOResult(short code, String msg, String msgCode) {
         this(code, msg);
         this.msgCode = msgCode;
     }
 
+    @Deprecated
     public DTOResult(short code, DTOLocalizeMessage localizeMessage) {
         this.code = code;
         this.localizeMessage = localizeMessage;
@@ -100,21 +111,52 @@ public class DTOResult implements Serializable {
         }
     }
 
+    @Deprecated
     public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg) {
         this(code, localizeMessage);
         this.msg = msg;
     }
 
+    @Deprecated
     public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg, String msgCode) {
         this(code, localizeMessage, msg);
         this.msgCode = msgCode;
 
     }
 
+    public DTOResult(String msg) {
+        this.msg = msg;
+    }
+
+    public DTOResult(String msg, String msgCode) {
+        this(msg);
+        this.msgCode = msgCode;
+    }
+
+    public DTOResult(DTOLocalizeMessage localizeMessage) {
+        this.localizeMessage = localizeMessage;
+        if (localizeMessage != null) {
+            this.msgCode = localizeMessage.getCode();
+        }
+    }
+
+    public DTOResult(DTOLocalizeMessage localizeMessage, String msg) {
+        this(localizeMessage);
+        this.msg = msg;
+    }
+
+    public DTOResult(DTOLocalizeMessage localizeMessage, String msg, String msgCode) {
+        this(localizeMessage, msg);
+        this.msgCode = msgCode;
+
+    }
+
+    @Deprecated
     public short getCode() {
         return code;
     }
 
+    @Deprecated
     public void setCode(short code) {
         this.code = code;
     }
@@ -143,11 +185,13 @@ public class DTOResult implements Serializable {
         this.localizeMessage = localizeMessage;
     }
 
+    @Deprecated
     @JsonIgnore
     public boolean isOk() {
         return getCode() == OK;
     }
 
+    @Deprecated
     @JsonIgnore
     public boolean isError() {
         return getCode() != OK;

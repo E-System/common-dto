@@ -27,6 +27,7 @@ import java.util.Collection;
  */
 public class ResponseBuilder<T> {
 
+    @Deprecated
     private short code;
     private String messageCode;
     private String localizeMessageCode;
@@ -34,43 +35,57 @@ public class ResponseBuilder<T> {
     private String message;
     private T data;
 
+    @Deprecated
     public ResponseBuilder() {
         this.code = DTOResult.BAD_REQUEST;
     }
 
+    @Deprecated
     public ResponseBuilder(short code) {
         this.code = code;
     }
 
+    public ResponseBuilder(String messageCode) {
+        this.messageCode = messageCode;
+    }
+
+    @Deprecated
     public ResponseBuilder<T> code(short code) {
         this.code = code;
         return this;
     }
 
+    @Deprecated
     public ResponseBuilder<T> ok() {
         return code(DTOResult.OK);
     }
 
+    @Deprecated
     public ResponseBuilder<T> badRequest() {
         return code(DTOResult.BAD_REQUEST);
     }
 
+    @Deprecated
     public ResponseBuilder<T> unauthorized() {
         return code(DTOResult.UNAUTHORIZED);
     }
 
+    @Deprecated
     public ResponseBuilder<T> forbidden() {
         return code(DTOResult.FORBIDDEN);
     }
 
+    @Deprecated
     public ResponseBuilder<T> unprocessableEntity() {
         return code(DTOResult.UNPROCESSABLE_ENTITY);
     }
 
+    @Deprecated
     public ResponseBuilder<T> internalServerError() {
         return code(DTOResult.INTERNAL_SERVER_ERROR);
     }
 
+    @Deprecated
     public ResponseBuilder<T> systemError() {
         return code(DTOResult.SYSTEM_ERROR);
     }
@@ -80,25 +95,25 @@ public class ResponseBuilder<T> {
         return this;
     }
 
-    public ResponseBuilder<T> message(String message, String messageCode) {
-        this.message = message;
+    public ResponseBuilder<T> message(String messageCode, String message) {
         this.messageCode = messageCode;
+        this.message = message;
         return this;
     }
 
-    public ResponseBuilder<T> localizedMessage(String messageCode) {
-        this.localizeMessageCode = messageCode;
+    public ResponseBuilder<T> localizedMessage(String localizeMessageCode) {
+        this.localizeMessageCode = localizeMessageCode;
         return this;
     }
 
-    public ResponseBuilder<T> localizedMessage(String messageCode, Collection<String> args) {
-        this.localizeMessageCode = messageCode;
+    public ResponseBuilder<T> localizedMessage(String localizeMessageCode, Collection<String> args) {
+        this.localizeMessageCode = localizeMessageCode;
         this.args = args;
         return this;
     }
 
-    public ResponseBuilder<T> localizedMessage(String messageCode, String... args) {
-        this.localizeMessageCode = messageCode;
+    public ResponseBuilder<T> localizedMessage(String localizeMessageCode, String... args) {
+        this.localizeMessageCode = localizeMessageCode;
         this.args = args != null ? Arrays.asList(args) : null;
         return this;
     }
