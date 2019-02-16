@@ -29,6 +29,7 @@ public class ResponseBuilder<T> {
 
     private short code;
     private String messageCode;
+    private String localizeMessageCode;
     private Collection<String> args;
     private String message;
     private T data;
@@ -79,19 +80,25 @@ public class ResponseBuilder<T> {
         return this;
     }
 
-    public ResponseBuilder<T> localizedMessage(String messageCode) {
+    public ResponseBuilder<T> message(String message, String messageCode) {
+        this.message = message;
         this.messageCode = messageCode;
         return this;
     }
 
+    public ResponseBuilder<T> localizedMessage(String messageCode) {
+        this.localizeMessageCode = messageCode;
+        return this;
+    }
+
     public ResponseBuilder<T> localizedMessage(String messageCode, Collection<String> args) {
-        this.messageCode = messageCode;
+        this.localizeMessageCode = messageCode;
         this.args = args;
         return this;
     }
 
     public ResponseBuilder<T> localizedMessage(String messageCode, String... args) {
-        this.messageCode = messageCode;
+        this.localizeMessageCode = messageCode;
         this.args = args != null ? Arrays.asList(args) : null;
         return this;
     }
@@ -103,16 +110,17 @@ public class ResponseBuilder<T> {
 
     public DTOResponse<T> build() {
         DTOLocalizeMessage dtoLocalizeMessage =
-            messageCode != null ?
+            localizeMessageCode != null ?
                 new DTOLocalizeMessage(
-                    messageCode,
+                    localizeMessageCode,
                     args
                 ) : null;
         return new DTOResponse<>(
             new DTOResult(
                 code,
                 dtoLocalizeMessage,
-                message
+                message,
+                messageCode
             ),
             data
         );

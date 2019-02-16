@@ -68,7 +68,10 @@ public class DTOResult implements Serializable {
     @ApiObjectField(description = "Simple message information", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String msg;
-    @ApiObjectField(description = "Localized message information", order = 1)
+    @ApiObjectField(description = "Message code", order = 2)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String msgCode;
+    @ApiObjectField(description = "Localized message information", order = 3)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DTOLocalizeMessage localizeMessage;
 
@@ -80,19 +83,32 @@ public class DTOResult implements Serializable {
 
 
     public DTOResult(short code, String msg) {
-        this.code = code;
+        this(code);
         this.msg = msg;
+    }
+
+    public DTOResult(short code, String msg, String msgCode) {
+        this(code, msg);
+        this.msgCode = msgCode;
     }
 
     public DTOResult(short code, DTOLocalizeMessage localizeMessage) {
         this.code = code;
         this.localizeMessage = localizeMessage;
+        if (localizeMessage != null) {
+            this.msgCode = localizeMessage.getCode();
+        }
     }
 
     public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg) {
-        this.code = code;
-        this.localizeMessage = localizeMessage;
+        this(code, localizeMessage);
         this.msg = msg;
+    }
+
+    public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg, String msgCode) {
+        this(code, localizeMessage, msg);
+        this.msgCode = msgCode;
+
     }
 
     public short getCode() {
@@ -109,6 +125,14 @@ public class DTOResult implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getMsgCode() {
+        return msgCode;
+    }
+
+    public void setMsgCode(String msgCode) {
+        this.msgCode = msgCode;
     }
 
     public DTOLocalizeMessage getLocalizeMessage() {
@@ -134,6 +158,7 @@ public class DTOResult implements Serializable {
         return "DTOResult{" +
                "code=" + code +
                ", msg='" + msg + '\'' +
+               ", msgCode='" + msgCode + '\'' +
                ", localizeMessage=" + localizeMessage +
                '}';
     }

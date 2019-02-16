@@ -53,6 +53,16 @@ class ResponseBuilderSpec extends Specification {
         response.result.msg == msg
     }
 
+    def "Building with message and messageCode is success"() {
+        when:
+        def msg = "Test message"
+        def msgCode = "MESSAGE"
+        def response = new ResponseBuilder().message(msg, msgCode).build()
+        then:
+        response.result.msg == msg
+        response.result.msgCode == msgCode
+    }
+
     def "Building with code is success"() {
         when:
         def response = new ResponseBuilder(DTOResult.OK).build()
@@ -187,6 +197,17 @@ class ResponseBuilderSpec extends Specification {
         then:
         response.result.code == DTOResult.BAD_REQUEST
         response.result.msg == errorMsg
+    }
+
+    def "Error answer without localization and message code"() {
+        when:
+        def errorMsg = "error"
+        def errorMsgCode = "error_code"
+        def response = new ResponseBuilder().message(errorMsg, errorMsgCode).build()
+        then:
+        response.result.code == DTOResult.BAD_REQUEST
+        response.result.msg == errorMsg
+        response.result.msgCode == errorMsgCode
     }
 
     def "Error answer with localization and two arguments"() {
