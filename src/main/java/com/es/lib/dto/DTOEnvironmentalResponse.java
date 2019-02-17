@@ -40,23 +40,32 @@ public class DTOEnvironmentalResponse<T, E> implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected E env;
 
+    @Deprecated
     public DTOEnvironmentalResponse() {
         result = new DTOResult(DTOResult.BAD_REQUEST);
     }
 
+    @Deprecated
     private DTOEnvironmentalResponse(DTOResult result) {
         this.result = result;
     }
 
+    @Deprecated
     public DTOEnvironmentalResponse(DTOResult result, T data) {
         this(result);
         this.data = data;
     }
 
+    public DTOEnvironmentalResponse(T data) {
+        this.data = data;
+    }
+
+    @Deprecated
     public DTOResult getResult() {
         return result;
     }
 
+    @Deprecated
     public void setResult(DTOResult result) {
         this.result = result;
     }

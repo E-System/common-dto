@@ -27,11 +27,17 @@ import org.jsondoc.core.annotation.ApiObject;
 @ApiObject(name = "DTOResponse", description = "Simple response with data")
 public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
 
+    @Deprecated
     public DTOResponse() {
         super();
     }
 
+    @Deprecated
     public DTOResponse(DTOResult result, T data) {
         super(result, data);
+    }
+
+    public DTOResponse(T data) {
+        super(data);
     }
 }
