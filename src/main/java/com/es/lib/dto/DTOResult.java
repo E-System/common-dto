@@ -76,9 +76,9 @@ public class DTOResult implements Serializable {
     @ApiObjectField(description = "Simple message information", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String msg;
-    @ApiObjectField(description = "Message code", order = 2)
+    @ApiObjectField(description = "Error code", order = 2)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String msgCode;
+    private String errorCode;
     @ApiObjectField(description = "Localized message information", order = 3)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DTOLocalizeMessage localizeMessage;
@@ -97,9 +97,9 @@ public class DTOResult implements Serializable {
     }
 
     @Deprecated
-    public DTOResult(short code, String msg, String msgCode) {
+    public DTOResult(short code, String msg, String errorCode) {
         this(code, msg);
-        this.msgCode = msgCode;
+        this.errorCode = errorCode;
     }
 
     @Deprecated
@@ -107,7 +107,7 @@ public class DTOResult implements Serializable {
         this.code = code;
         this.localizeMessage = localizeMessage;
         if (localizeMessage != null) {
-            this.msgCode = localizeMessage.getCode();
+            this.errorCode = localizeMessage.getCode();
         }
     }
 
@@ -118,9 +118,9 @@ public class DTOResult implements Serializable {
     }
 
     @Deprecated
-    public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg, String msgCode) {
+    public DTOResult(short code, DTOLocalizeMessage localizeMessage, String msg, String errorCode) {
         this(code, localizeMessage, msg);
-        this.msgCode = msgCode;
+        this.errorCode = errorCode;
 
     }
 
@@ -128,15 +128,15 @@ public class DTOResult implements Serializable {
         this.msg = msg;
     }
 
-    public DTOResult(String msg, String msgCode) {
+    public DTOResult(String msg, String errorCode) {
         this(msg);
-        this.msgCode = msgCode;
+        this.errorCode = errorCode;
     }
 
     public DTOResult(DTOLocalizeMessage localizeMessage) {
         this.localizeMessage = localizeMessage;
         if (localizeMessage != null) {
-            this.msgCode = localizeMessage.getCode();
+            this.errorCode = localizeMessage.getCode();
         }
     }
 
@@ -145,9 +145,9 @@ public class DTOResult implements Serializable {
         this.msg = msg;
     }
 
-    public DTOResult(DTOLocalizeMessage localizeMessage, String msg, String msgCode) {
+    public DTOResult(DTOLocalizeMessage localizeMessage, String msg, String errorCode) {
         this(localizeMessage, msg);
-        this.msgCode = msgCode;
+        this.errorCode = errorCode;
 
     }
 
@@ -169,12 +169,12 @@ public class DTOResult implements Serializable {
         this.msg = msg;
     }
 
-    public String getMsgCode() {
-        return msgCode;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public void setMsgCode(String msgCode) {
-        this.msgCode = msgCode;
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
     public DTOLocalizeMessage getLocalizeMessage() {
@@ -202,7 +202,7 @@ public class DTOResult implements Serializable {
         return "DTOResult{" +
                "code=" + code +
                ", msg='" + msg + '\'' +
-               ", msgCode='" + msgCode + '\'' +
+               ", errorCode='" + errorCode + '\'' +
                ", localizeMessage=" + localizeMessage +
                '}';
     }

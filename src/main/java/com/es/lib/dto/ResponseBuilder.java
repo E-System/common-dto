@@ -29,7 +29,7 @@ public class ResponseBuilder<T> {
 
     @Deprecated
     private short code;
-    private String messageCode;
+    private String errorCode;
     private String localizeMessageCode;
     private Collection<String> args;
     private String message;
@@ -45,8 +45,8 @@ public class ResponseBuilder<T> {
         this.code = code;
     }
 
-    public ResponseBuilder(String messageCode) {
-        this.messageCode = messageCode;
+    public ResponseBuilder(String errorCode) {
+        this.errorCode = errorCode;
     }
 
     @Deprecated
@@ -95,8 +95,8 @@ public class ResponseBuilder<T> {
         return this;
     }
 
-    public ResponseBuilder<T> message(String messageCode, String message) {
-        this.messageCode = messageCode;
+    public ResponseBuilder<T> message(String errorCode, String message) {
+        this.errorCode = errorCode;
         this.message = message;
         return this;
     }
@@ -135,7 +135,7 @@ public class ResponseBuilder<T> {
                 code,
                 dtoLocalizeMessage,
                 message,
-                messageCode
+                errorCode
             ),
             data
         );
