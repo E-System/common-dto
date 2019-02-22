@@ -32,6 +32,7 @@ import java.io.Serializable;
 public class DTOEnvironmentalResponse<T, E> implements Serializable {
 
     @ApiObjectField(description = "Result information", order = 0)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     protected DTOResult result;
     @ApiObjectField(description = "Data object", order = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
