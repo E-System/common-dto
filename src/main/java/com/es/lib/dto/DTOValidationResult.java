@@ -18,6 +18,8 @@ package com.es.lib.dto;
 
 import com.es.lib.dto.validation.DTOValidationField;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -30,10 +32,12 @@ import java.util.Collection;
  * @since 25.03.19
  */
 @ApiObject(name = "DTOValidationResult", description = "Request validation result")
+@ApiModel(description = "Request validation result")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOValidationResult extends DTOResult {
 
     @ApiObjectField(description = "Request validation information", order = 4)
+    @ApiModelProperty(notes = "Request validation information", position = 4)
     private Collection<DTOValidationField> fields;
 
     public DTOValidationResult() { }

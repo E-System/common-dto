@@ -17,6 +17,8 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -30,12 +32,15 @@ import java.util.Collection;
  * @since 10.04.15
  */
 @ApiObject(name = "DTOLocalizeMessage", description = "Localization message information")
+@ApiModel(description = "Localization message information")
 public class DTOLocalizeMessage {
 
     @ApiObjectField(description = "Code", order = 0)
+    @ApiModelProperty(notes = "Code", position = 0)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String code;
     @ApiObjectField(description = "Arguments for message format", order = 1)
+    @ApiModelProperty(notes = "Arguments for message format", position = 1)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Collection<String> args;
 

@@ -17,6 +17,8 @@
 package com.es.lib.dto.validation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -29,12 +31,15 @@ import java.io.Serializable;
  * @since 10.04.15
  */
 @ApiObject(name = "DTOValidationField", description = "Validation field information")
+@ApiModel(description = "Validation field information")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DTOValidationField implements Serializable {
 
     @ApiObjectField(description = "Name", order = 0)
+    @ApiModelProperty(notes = "Name", position = 0)
     private String name;
     @ApiObjectField(description = "Message", order = 1)
+    @ApiModelProperty(notes = "Message", position = 1)
     private String msg;
 
     public DTOValidationField() { }

@@ -18,6 +18,8 @@ package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -30,6 +32,7 @@ import java.io.Serializable;
  * @since 10.04.15
  */
 @ApiObject(name = "DTOResult", description = "Request process result")
+@ApiModel(description = "Request process result")
 public class DTOResult implements Serializable {
 
     /**
@@ -71,15 +74,19 @@ public class DTOResult implements Serializable {
     public static final short SYSTEM_ERROR = 500;
     //-------------------------------------------------------
     @ApiObjectField(description = "Code", allowedvalues = {"200", "400", "401", "403", "422", "500"}, order = 0)
+    @ApiModelProperty(notes = "Code", allowableValues = "200, 400, 401, 403, 422, 500", position = 0)
     @Deprecated
     private short code;
     @ApiObjectField(description = "Simple message information", order = 1)
+    @ApiModelProperty(notes = "Simple message information", position = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String msg;
     @ApiObjectField(description = "Error code", order = 2)
+    @ApiModelProperty(notes = "Error code", position = 2)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String errorCode;
     @ApiObjectField(description = "Localized message information", order = 3)
+    @ApiModelProperty(notes = "Localized message information", position = 3)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DTOLocalizeMessage localizeMessage;
 

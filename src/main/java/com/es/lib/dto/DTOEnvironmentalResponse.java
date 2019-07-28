@@ -17,6 +17,8 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -29,15 +31,19 @@ import java.io.Serializable;
  * @since 10.04.15
  */
 @ApiObject(name = "DTOEnvironmentalResponse", description = "Environmental response class")
+@ApiModel(description = "Environmental response class")
 public class DTOEnvironmentalResponse<T, E> implements Serializable {
 
     @ApiObjectField(description = "Result information", order = 0)
+    @ApiModelProperty(notes = "Result information", position = 0)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected DTOResult result;
     @ApiObjectField(description = "Data object", order = 1)
+    @ApiModelProperty(notes = "Data object", position = 1)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected T data;
     @ApiObjectField(description = "Environment object", order = 2)
+    @ApiModelProperty(notes = "Environment object", position = 2)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected E env;
 
