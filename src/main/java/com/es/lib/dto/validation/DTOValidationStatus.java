@@ -45,6 +45,10 @@ public class DTOValidationStatus implements Serializable {
 
     public DTOValidationStatus() { }
 
+    public DTOValidationStatus(Collection<DTOValidationField> fields) {
+        this.fields = fields;
+    }
+
     public DTOValidationStatus(Type type, Collection<DTOValidationField> fields) {
         this.type = type;
         this.fields = fields;
