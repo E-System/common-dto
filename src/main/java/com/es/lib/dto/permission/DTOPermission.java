@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Data
@@ -14,7 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @ApiModel(description = "Permission configuration")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DTOPermission {
+public class DTOPermission implements Serializable {
 
     @ApiModelProperty(notes = "All available actions", position = 0)
     private Collection<DTOAction> actions;

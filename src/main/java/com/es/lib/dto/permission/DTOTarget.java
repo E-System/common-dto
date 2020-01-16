@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Data
@@ -14,7 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @ApiModel(description = "Access item")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DTOTarget {
+public class DTOTarget implements Serializable {
 
     @ApiModelProperty(notes = "Code", position = 0)
     private String code;
