@@ -19,6 +19,9 @@ package com.es.lib.dto.validation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
@@ -31,6 +34,9 @@ import java.util.Collection;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiObject(name = "DTOValidationStatus", description = "Form validation information")
 @ApiModel(description = "Form validation information")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,30 +49,7 @@ public class DTOValidationStatus implements Serializable {
     @ApiModelProperty(notes = "Form fields information", position = 1)
     private Collection<DTOValidationField> fields;
 
-    public DTOValidationStatus() { }
-
     public DTOValidationStatus(Collection<DTOValidationField> fields) {
-        this.fields = fields;
-    }
-
-    public DTOValidationStatus(Type type, Collection<DTOValidationField> fields) {
-        this.type = type;
-        this.fields = fields;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public Collection<DTOValidationField> getFields() {
-        return fields;
-    }
-
-    public void setFields(Collection<DTOValidationField> fields) {
         this.fields = fields;
     }
 
@@ -76,13 +59,5 @@ public class DTOValidationStatus implements Serializable {
         Warn,
         Error,
         Fatal
-    }
-
-    @Override
-    public String toString() {
-        return "DTOValidationStatus [" +
-               "type=" + type +
-               ", fields=" + fields +
-               ']';
     }
 }
