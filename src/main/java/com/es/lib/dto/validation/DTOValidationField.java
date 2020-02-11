@@ -22,8 +22,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jsondoc.core.annotation.ApiObject;
-import org.jsondoc.core.annotation.ApiObjectField;
 
 import java.io.Serializable;
 
@@ -36,15 +34,12 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiObject(name = "DTOValidationField", description = "Validation field information")
 @ApiModel(description = "Validation field information")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DTOValidationField implements Serializable {
 
-    @ApiObjectField(description = "Name", order = 0)
     @ApiModelProperty(notes = "Name", position = 0)
     private String name;
-    @ApiObjectField(description = "Message", order = 1)
     @ApiModelProperty(notes = "Message", position = 1)
     private String msg;
 }

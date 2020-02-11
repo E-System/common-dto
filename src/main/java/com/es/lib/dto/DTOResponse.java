@@ -17,7 +17,6 @@
 package com.es.lib.dto;
 
 import io.swagger.annotations.ApiModel;
-import org.jsondoc.core.annotation.ApiObject;
 
 /**
  * Response with only data
@@ -25,19 +24,8 @@ import org.jsondoc.core.annotation.ApiObject;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-@ApiObject(name = "DTOResponse", description = "Simple response with data")
 @ApiModel(description = "Simple response with data")
 public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
-
-    @Deprecated
-    public DTOResponse() {
-        super();
-    }
-
-    @Deprecated
-    public DTOResponse(DTOResult result, T data) {
-        super(result, data);
-    }
 
     public DTOResponse(T data) {
         super(data);

@@ -19,8 +19,7 @@ package com.es.lib.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.jsondoc.core.annotation.ApiObject;
-import org.jsondoc.core.annotation.ApiObjectField;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -30,75 +29,21 @@ import java.io.Serializable;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-@ApiObject(name = "DTOEnvironmentalResponse", description = "Environmental response class")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(description = "Environmental response class")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOEnvironmentalResponse<T, E> implements Serializable {
 
-    @ApiObjectField(description = "Result information", order = 0)
-    @ApiModelProperty(notes = "Result information", position = 0)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    protected DTOResult result;
-    @ApiObjectField(description = "Data object", order = 1)
-    @ApiModelProperty(notes = "Data object", position = 1)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @ApiModelProperty(notes = "Data object", position = 0)
     protected T data;
-    @ApiObjectField(description = "Environment object", order = 2)
-    @ApiModelProperty(notes = "Environment object", position = 2)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @ApiModelProperty(notes = "Environment object", position = 1)
     protected E env;
-
-    @Deprecated
-    public DTOEnvironmentalResponse() {
-        result = new DTOResult(DTOResult.BAD_REQUEST);
-    }
-
-    @Deprecated
-    private DTOEnvironmentalResponse(DTOResult result) {
-        this.result = result;
-    }
-
-    @Deprecated
-    public DTOEnvironmentalResponse(DTOResult result, T data) {
-        this(result);
-        this.data = data;
-    }
 
     public DTOEnvironmentalResponse(T data) {
         this.data = data;
-    }
-
-    @Deprecated
-    public DTOResult getResult() {
-        return result;
-    }
-
-    @Deprecated
-    public void setResult(DTOResult result) {
-        this.result = result;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public E getEnv() {
-        return env;
-    }
-
-    public void setEnv(E env) {
-        this.env = env;
-    }
-
-    @Override
-    public String toString() {
-        return "DTOEnvironmentalResponse{" +
-               "result=" + result +
-               ", data=" + data +
-               ", env=" + env +
-               '}';
     }
 }

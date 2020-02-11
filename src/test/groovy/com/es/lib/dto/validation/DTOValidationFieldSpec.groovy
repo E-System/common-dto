@@ -24,7 +24,7 @@ import spock.lang.Specification
  */
 class DTOValidationFieldSpec extends Specification {
 
-    def "Constructing with two arguments is success"() {
+    def "Constructing"() {
         when:
         def name = "name"
         def msg = "msg"

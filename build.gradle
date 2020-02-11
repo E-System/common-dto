@@ -31,7 +31,7 @@ buildscript {
 }
 
 wrapper{
-    gradleVersion = '6.0.1'
+    gradleVersion = '6.1.1'
 }
 
 apply from: "build-${profile}.gradle"
@@ -126,9 +126,8 @@ publishing {
     }
 }
 dependencies {
-    compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
-    compileOnly "org.jsondoc:jsondoc-core:1.2.19"
-    compileOnly "io.swagger:swagger-annotations:1.5.22"
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.10.2"
+    compileOnly "io.swagger:swagger-annotations:1.6.0"
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
 

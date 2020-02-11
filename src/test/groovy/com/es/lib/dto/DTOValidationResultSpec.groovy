@@ -27,13 +27,15 @@ class DTOValidationResultSpec extends Specification {
 
     def "Constructing with two arguments is success"() {
         when:
-        def gmsg = "gmsg"
+        def code = "code"
+        def message = "message"
         def name = "name"
         def msg = "msg"
         def fields = [new DTOValidationField(name, msg)]
-        def vf = new DTOValidationResult(gmsg, fields)
+        def vf = new DTOValidationResult(code, message, fields)
         then:
-        vf.msg == gmsg
+        vf.code == code
+        vf.msg == message
         vf.fields == fields
     }
 }

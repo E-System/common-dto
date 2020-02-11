@@ -20,8 +20,8 @@ import com.es.lib.dto.validation.DTOValidationField;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.jsondoc.core.annotation.ApiObject;
-import org.jsondoc.core.annotation.ApiObjectField;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Collection;
 
@@ -31,55 +31,17 @@ import java.util.Collection;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 25.03.19
  */
-@ApiObject(name = "DTOValidationResult", description = "Request validation result")
+@Getter
+@ToString(callSuper = true)
 @ApiModel(description = "Request validation result")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOValidationResult extends DTOResult {
 
-    @ApiObjectField(description = "Request validation information", order = 4)
-    @ApiModelProperty(notes = "Request validation information", position = 4)
+    @ApiModelProperty(notes = "Request validation information", position = 2)
     private Collection<DTOValidationField> fields;
 
-    public DTOValidationResult() { }
-
-    public DTOValidationResult(String msg, Collection<DTOValidationField> fields) {
-        super(msg);
+    public DTOValidationResult(String code, String msg, Collection<DTOValidationField> fields) {
+        super(code, msg);
         this.fields = fields;
-    }
-
-    public DTOValidationResult(String msg, String errorCode, Collection<DTOValidationField> fields) {
-        super(msg, errorCode);
-        this.fields = fields;
-    }
-
-    public DTOValidationResult(DTOLocalizeMessage localizeMessage, Collection<DTOValidationField> fields) {
-        super(localizeMessage);
-        this.fields = fields;
-    }
-
-    public DTOValidationResult(DTOLocalizeMessage localizeMessage, String msg, Collection<DTOValidationField> fields) {
-        super(localizeMessage, msg);
-        this.fields = fields;
-    }
-
-    public DTOValidationResult(DTOLocalizeMessage localizeMessage, String msg, String errorCode, Collection<DTOValidationField> fields) {
-        super(localizeMessage, msg, errorCode);
-        this.fields = fields;
-
-    }
-
-    public Collection<DTOValidationField> getFields() {
-        return fields;
-    }
-
-    public void setFields(Collection<DTOValidationField> fields) {
-        this.fields = fields;
-    }
-
-    @Override
-    public String toString() {
-        return "DTOValidationResult{" +
-               "fields=" + fields +
-               "} " + super.toString();
     }
 }
