@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Collection;
@@ -32,6 +33,7 @@ import java.util.Collection;
  * @since 25.03.19
  */
 @Getter
+@NoArgsConstructor
 @ToString(callSuper = true)
 @ApiModel(description = "Request validation result")
 @JsonInclude(JsonInclude.Include.NON_NULL)

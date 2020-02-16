@@ -17,6 +17,7 @@
 package com.es.lib.dto;
 
 import io.swagger.annotations.ApiModel;
+import lombok.NoArgsConstructor;
 
 /**
  * Response with only data
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiModel;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@NoArgsConstructor
 @ApiModel(description = "Simple response with data")
 public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
 
