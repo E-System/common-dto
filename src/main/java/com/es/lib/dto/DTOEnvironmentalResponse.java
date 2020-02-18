@@ -34,7 +34,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Environmental response class")
+@ApiModel(description = "Environmental response (with data and environmental object)")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOEnvironmentalResponse<T, E> implements Serializable {
 
