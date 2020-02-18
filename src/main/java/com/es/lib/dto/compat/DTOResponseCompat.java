@@ -14,9 +14,12 @@
  *    limitations under the License.
  */
 
-package com.es.lib.dto;
+package com.es.lib.dto.compat;
 
+import com.es.lib.dto.DTOEnvironmentalResponse;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -25,11 +28,25 @@ import lombok.NoArgsConstructor;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
 @NoArgsConstructor
-@ApiModel(description = "Response with data")
-public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
+@ApiModel(description = "Response with data (compat)")
+public class DTOResponseCompat<T> extends DTOEnvironmentalResponse<T, Object> {
 
-    public DTOResponse(T data) {
+    @ApiModelProperty(notes = "Result compat", position = 0)
+    private DTOResultCompat result;
+    @ApiModelProperty(notes = "Error code", position = 1)
+    private String code;
+    @ApiModelProperty(notes = "Error message", position = 2)
+    private String msg;
+
+    public DTOResponseCompat(T data) {
         super(data);
+        this.result = new DTOResultCompat(200);
+    }
+
+    public DTOResponseCompat(DTOResultCompat result) {
+        super(null);
+        this.result = result;
     }
 }
