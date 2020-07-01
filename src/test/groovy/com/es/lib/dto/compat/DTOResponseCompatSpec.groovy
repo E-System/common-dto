@@ -16,4 +16,17 @@ class DTOResponseCompatSpec extends Specification {
         item.result.msg == null
         item.env == null
     }
+
+    def "Constructing with result"() {
+        when:
+        def body = "body"
+        def res = new DTOResultCompat(200)
+        def item = new DTOResponseCompat<String>(res)
+        then:
+        item.data == null
+        item.result.code == 200
+        item.result.errorCode == null
+        item.result.msg == null
+        item.env == null
+    }
 }
