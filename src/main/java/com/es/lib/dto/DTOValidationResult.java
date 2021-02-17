@@ -29,7 +29,7 @@ import java.util.Collection;
 /**
  * Request validation information with message and type
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 25.03.19
  */
 @Getter

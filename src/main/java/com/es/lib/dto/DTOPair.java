@@ -19,31 +19,27 @@ package com.es.lib.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * Environmental response class with data and environment
+ * Simple pair for key and value
  *
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
- * @since 10.04.15
+ * @since 17.02.2021
  */
 @Getter
-@Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Environmental response (with data and environmental object)")
+@ApiModel(description = "Simple pair")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DTOEnvironmentalResponse<T, E> implements Serializable {
+public class DTOPair implements Serializable {
 
-    @ApiModelProperty(notes = "Data object", position = 0)
-    protected T data;
-    @ApiModelProperty(notes = "Environment object", position = 1)
-    protected E env;
-
-    public DTOEnvironmentalResponse(T data) {
-        this.data = data;
-    }
+    @ApiModelProperty(notes = "Key", position = 0)
+    private String key;
+    @ApiModelProperty(notes = "Value", position = 1)
+    private String value;
 }

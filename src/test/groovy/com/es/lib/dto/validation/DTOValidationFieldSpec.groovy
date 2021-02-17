@@ -19,7 +19,7 @@ package com.es.lib.dto.validation
 import spock.lang.Specification
 
 /**
- * @author Zuzoev Dmitry <zuzoev.d@ext-system.com>
+ * @author Dmitriy Zuzoev <zuzoev.d@ext-system.com>
  * @since 10.04.15
  */
 class DTOValidationFieldSpec extends Specification {

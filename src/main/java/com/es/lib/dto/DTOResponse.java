@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 /**
  * Response with only data
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 @NoArgsConstructor

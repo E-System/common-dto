@@ -28,7 +28,7 @@ import java.io.Serializable;
 /**
  * Execution result with code, localized message, simple message
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 @Getter

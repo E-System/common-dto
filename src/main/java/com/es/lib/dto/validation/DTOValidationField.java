@@ -28,7 +28,7 @@ import java.io.Serializable;
 /**
  * Field with validation information
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 @Data

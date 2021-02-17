@@ -20,7 +20,7 @@ import com.es.lib.dto.validation.DTOValidationField
 import spock.lang.Specification
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 25.03.19
  */
 class DTOValidationResultSpec extends Specification {
