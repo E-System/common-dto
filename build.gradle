@@ -49,7 +49,7 @@ group = ext.mainGroup
 version = ext.mainVersion + (ext.snapshot ? '-SNAPSHOT' : '')
 
 repositories {
-    jcenter()
+    mavenCentral()
     mavenLocal()
 }
 
@@ -126,7 +126,7 @@ publishing {
     }
 }
 dependencies {
-    implementation "com.fasterxml.jackson.core:jackson-annotations:2.12.1"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.12.2"
     implementation "io.swagger:swagger-annotations:1.6.2"
 
     compileOnly "org.projectlombok:lombok:1.18.18"
