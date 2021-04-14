@@ -23,7 +23,7 @@ import java.io.Serializable;
 public class DTOFileStore implements Serializable {
 
     @ApiModelProperty(notes = "ID", position = 0)
-    private long id;
+    private String id;
     @ApiModelProperty(notes = "File name", position = 1)
     private String name;
     @ApiModelProperty(notes = "File extension", position = 2)

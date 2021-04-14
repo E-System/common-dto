@@ -6,7 +6,7 @@ class DTOFileStoreSpec extends Specification {
 
     def "Construct"() {
         when:
-        def id = 1L
+        def id = "123"
         def name = "file_name"
         def ext = "ext"
         def mime = "mime"
