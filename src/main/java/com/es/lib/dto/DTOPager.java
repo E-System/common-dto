@@ -53,8 +53,6 @@ public class DTOPager<T> implements Serializable {
     @ApiModelProperty(notes = "Page numbers", position = 5)
     private Collection<Integer> pages;
 
-    public DTOPager() { }
-
     public DTOPager(int page, long total, int pageSize, Collection<T> values) {
         this.page = page;
         this.total = total;
