@@ -16,6 +16,8 @@
 
 package com.es.lib.dto
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import spock.lang.Shared
 import spock.lang.Specification
 
 /**
@@ -23,6 +25,9 @@ import spock.lang.Specification
  * @since 10.04.15
  */
 class DTOPagerSpec extends Specification {
+
+    @Shared
+    def mapper = new ObjectMapper()
 
     def "Constructor must set all fields"() {
         when:
@@ -34,5 +39,19 @@ class DTOPagerSpec extends Specification {
         pager.pageSize == 1
         pager.pages == [1, 2]
         pager.values == ["Test"]
+    }
+
+    def "To json and from json"() {
+        when:
+        def pager = new DTOPager(1, 2, 1, ["Test"])
+        def json = mapper.writeValueAsString(pager)
+        def result = mapper.readValue(json, DTOPager.class)
+        then:
+        pager.numberOfPages == result.numberOfPages
+        pager.total == result.total
+        pager.page == result.page
+        pager.pageSize == result.pageSize
+        pager.pages == result.pages
+        pager.values == result.values
     }
 }
