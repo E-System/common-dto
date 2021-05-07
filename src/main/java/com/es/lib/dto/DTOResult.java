@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -32,6 +33,7 @@ import java.io.Serializable;
  * @since 10.04.15
  */
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "Error result")
