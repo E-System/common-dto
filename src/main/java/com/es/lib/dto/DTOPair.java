@@ -36,10 +36,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ApiModel(description = "Simple pair")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DTOPair implements Serializable {
+public class DTOPair<K, V> implements Serializable {
 
     @ApiModelProperty(notes = "Key", position = 0)
-    private String key;
+    private K key;
     @ApiModelProperty(notes = "Value", position = 1)
-    private String value;
+    private V value;
+
+    public static <K, V> DTOPair<K, V> of(K key, V value) {
+        return new DTOPair<>(key, value);
+    }
 }

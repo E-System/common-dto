@@ -8,7 +8,17 @@ class DTOPairSpec extends Specification {
         when:
         def key = "Key1"
         def value = "Value1"
-        def p = new DTOPair(key, value)
+        def p = DTOPair.of(key, value)
+        then:
+        p.key == key
+        p.value == value
+    }
+
+    def "Construct 2"() {
+        when:
+        def key = 1L
+        def value = "Value1"
+        def p = DTOPair.of(key, value)
         then:
         p.key == key
         p.value == value
