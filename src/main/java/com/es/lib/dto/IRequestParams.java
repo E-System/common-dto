@@ -21,11 +21,19 @@ public interface IRequestParams {
      */
     String LAST = "last";
     /**
+     * Request param name for offset
+     */
+    String OFFSET = "offset";
+    /**
      * Params for pager
      */
     Collection<String> ForPager = Arrays.asList(PAGE, LIMIT);
     /**
      * Params for bunch by last identifier
      */
-    Collection<String> ForBunch = Arrays.asList(LAST, LIMIT);
+    Collection<String> ForBunchByIdentifier = Arrays.asList(LAST, LIMIT);
+    /**
+     * Params for bunch by offset
+     */
+    Collection<String> ForBunchByOffset = Arrays.asList(OFFSET, LIMIT);
 }
