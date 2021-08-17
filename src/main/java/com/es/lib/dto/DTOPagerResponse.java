@@ -40,9 +40,9 @@ import java.util.Collection;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPagerResponse<T> extends DTOResponse<Collection<T>> {
 
-    @ApiModelProperty(notes = "Pager data", position = 0)
+    @ApiModelProperty(notes = "Pager data", position = 2)
     protected DTOPager<T> pager;
-    @ApiModelProperty(notes = "Totals data", position = 1)
+    @ApiModelProperty(notes = "Totals data", position = 3)
     protected Object totals;
 
     public DTOPagerResponse(DTOPager<T> pager) {
