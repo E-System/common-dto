@@ -26,7 +26,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.2.0"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
     }
 }
 
@@ -126,7 +126,7 @@ publishing {
     }
 }
 ext {
-    jacksonVersion = "2.12.3"
+    jacksonVersion = "2.12.4"
 }
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"

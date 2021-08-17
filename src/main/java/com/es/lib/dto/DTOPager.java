@@ -18,12 +18,10 @@ package com.es.lib.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -37,6 +35,7 @@ import java.util.LinkedList;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(description = "Pager")
 public class DTOPager<T> implements Serializable {
 
@@ -57,7 +56,7 @@ public class DTOPager<T> implements Serializable {
         this.page = page;
         this.total = total;
         this.pageSize = pageSize;
-        this.pages = new LinkedList<>();
+        this.pages = new ArrayList<>();
         this.values = values;
         update();
     }

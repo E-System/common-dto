@@ -41,6 +41,42 @@ class DTOPagerSpec extends Specification {
         pager.values == ["Test"]
     }
 
+    def "Pages from start"() {
+        when:
+        def pager = new DTOPager(0, 1000, 10, ["Test"])
+        then:
+        pager.numberOfPages == 100
+        pager.total == 1000
+        pager.page == 0
+        pager.pageSize == 10
+        pager.pages == [1, 2, 3, 4, 5, 6, 7, 8, -1, 100]
+        pager.values == ["Test"]
+    }
+
+    def "Pages from middle"() {
+        when:
+        def pager = new DTOPager(10, 1000, 10, ["Test"])
+        then:
+        pager.numberOfPages == 100
+        pager.total == 1000
+        pager.page == 10
+        pager.pageSize == 10
+        pager.pages == [1, -1, 7, 8, 9, 10, 11, 12, 13, 14, -1, 100]
+        pager.values == ["Test"]
+    }
+
+    def "Pages from end"() {
+        when:
+        def pager = new DTOPager(98, 1000, 10, ["Test"])
+        then:
+        pager.numberOfPages == 100
+        pager.total == 1000
+        pager.page == 98
+        pager.pageSize == 10
+        pager.pages == [1, -1, 93, 94, 95, 96, 97, 98, 99, 100]
+        pager.values == ["Test"]
+    }
+
     def "To json and from json"() {
         when:
         def pager = new DTOPager(1, 2, 1, ["Test"])
