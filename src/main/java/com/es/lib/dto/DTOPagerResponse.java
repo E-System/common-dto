@@ -38,7 +38,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @ApiModel(description = "Pager response")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DTOPagerResponse<T> extends DTOEnvironmentalResponse<Collection<T>, Object> {
+public class DTOPagerResponse<T> extends DTOResponse<Collection<T>> {
 
     @ApiModelProperty(notes = "Pager data", position = 0)
     protected DTOPager<T> pager;
@@ -50,7 +50,7 @@ public class DTOPagerResponse<T> extends DTOEnvironmentalResponse<Collection<T>,
     }
 
     public DTOPagerResponse(DTOPager<T> pager, Object totals) {
-        this.data = pager.getValues();
+        super(pager.getValues());
         this.pager = new DTOPager<>(
             pager.getPage(),
             pager.getTotal(),
