@@ -34,7 +34,7 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor
 @ApiModel(description = "Pager response")
 @JsonInclude(JsonInclude.Include.NON_NULL)
