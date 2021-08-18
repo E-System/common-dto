@@ -16,6 +16,7 @@
 
 package com.es.lib.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -23,7 +24,6 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * Pager
@@ -37,6 +37,7 @@ import java.util.LinkedList;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "Pager")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPager<T> implements Serializable {
 
     @ApiModelProperty(notes = "Current page", position = 0)
