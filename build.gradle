@@ -31,7 +31,7 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '6.9.1'
+    gradleVersion = '7.2'
 }
 
 apply from: "build-${profile}.gradle"
@@ -126,7 +126,7 @@ publishing {
     }
 }
 ext {
-    jacksonVersion = "2.12.4"
+    jacksonVersion = "2.12.5"
 }
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
