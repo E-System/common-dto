@@ -31,7 +31,7 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '7.2'
+    gradleVersion = '7.3'
 }
 
 apply from: "build-${profile}.gradle"
@@ -126,14 +126,14 @@ publishing {
     }
 }
 ext {
-    jacksonVersion = "2.12.5"
+    jacksonVersion = '2.13.0'
 }
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
     implementation "io.swagger:swagger-annotations:1.6.2"
 
-    compileOnly "org.projectlombok:lombok:1.18.20"
-    annotationProcessor "org.projectlombok:lombok:1.18.20"
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
     testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
