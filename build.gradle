@@ -130,7 +130,7 @@ ext {
 }
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
-    implementation "io.swagger:swagger-annotations:1.6.2"
+    implementation "io.swagger.core.v3:swagger-annotations:2.1.13"
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

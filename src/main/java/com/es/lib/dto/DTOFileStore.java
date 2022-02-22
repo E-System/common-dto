@@ -1,8 +1,7 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,18 +17,18 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "File store information")
+@Schema(description = "File store information")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOFileStore implements Serializable {
 
-    @ApiModelProperty(notes = "ID", position = 0)
+    @Schema(description = "ID")
     private String id;
-    @ApiModelProperty(notes = "File name", position = 1)
+    @Schema(description = "File name")
     private String name;
-    @ApiModelProperty(notes = "File extension", position = 2)
+    @Schema(description = "File extension")
     private String ext;
-    @ApiModelProperty(notes = "File mime type", position = 3)
+    @Schema(description = "File mime type")
     private String mime;
-    @ApiModelProperty(notes = "File size", position = 4)
+    @Schema(description = "File size")
     private long size;
 }

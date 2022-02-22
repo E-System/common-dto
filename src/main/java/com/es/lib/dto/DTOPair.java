@@ -17,8 +17,7 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,13 +33,13 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Simple pair")
+@Schema(description = "Simple pair")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPair<K, V> implements Serializable {
 
-    @ApiModelProperty(notes = "Key", position = 0)
+    @Schema(description = "Key")
     private K key;
-    @ApiModelProperty(notes = "Value", position = 1)
+    @Schema(description = "Value")
     private V value;
 
     public static <K, V> DTOPair<K, V> of(K key, V value) {

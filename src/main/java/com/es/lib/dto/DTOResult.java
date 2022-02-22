@@ -17,8 +17,7 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,12 +35,12 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Error result")
+@Schema(description = "Error result")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOResult implements Serializable {
 
-    @ApiModelProperty(notes = "Error code", position = 0)
+    @Schema(description = "Error code")
     private String code;
-    @ApiModelProperty(notes = "Error message", position = 1)
+    @Schema(description = "Error message")
     private String msg;
 }

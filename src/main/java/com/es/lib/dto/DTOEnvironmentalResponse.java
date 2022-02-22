@@ -17,8 +17,7 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
@@ -34,13 +33,13 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Environmental response (with data and environmental object)")
+@Schema(description = "Environmental response (with data and environmental object)")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOEnvironmentalResponse<T, E> implements Serializable {
 
-    @ApiModelProperty(notes = "Data object", position = 0)
+    @Schema(description = "Data object")
     protected T data;
-    @ApiModelProperty(notes = "Environment object", position = 1)
+    @Schema(description = "Environment object")
     protected E env;
 
     public DTOEnvironmentalResponse(T data) {

@@ -17,8 +17,7 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.io.Serializable;
@@ -36,21 +35,21 @@ import java.util.Collection;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Pager")
+@Schema(description = "Pager")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPager<T> implements Serializable {
 
-    @ApiModelProperty(notes = "Current page", position = 0)
+    @Schema(description = "Current page")
     private int page;
-    @ApiModelProperty(notes = "Total elements count", position = 1)
+    @Schema(description = "Total elements count")
     private long total;
-    @ApiModelProperty(notes = "Count of elements on page", position = 2)
+    @Schema(description = "Count of elements on page")
     private int pageSize;
-    @ApiModelProperty(notes = "Page elements", position = 3)
+    @Schema(description = "Page elements")
     private Collection<T> values;
-    @ApiModelProperty(notes = "Total pages count", position = 4)
+    @Schema(description = "Total pages count")
     private int numberOfPages;
-    @ApiModelProperty(notes = "Page numbers", position = 5)
+    @Schema(description = "Page numbers")
     private Collection<Integer> pages;
 
     public DTOPager(int page, long total, int pageSize, Collection<T> values) {

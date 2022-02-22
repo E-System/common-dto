@@ -17,8 +17,7 @@
 package com.es.lib.dto.compat;
 
 import com.es.lib.dto.DTOEnvironmentalResponse;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,14 +29,14 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor
-@ApiModel(description = "Response with data (compat)")
+@Schema(description = "Response with data (compat)")
 public class DTOResponseCompat<T> extends DTOEnvironmentalResponse<T, Object> {
 
-    @ApiModelProperty(notes = "Result compat", position = 0)
+    @Schema(description = "Result compat")
     private DTOResultCompat result;
-    @ApiModelProperty(notes = "Error code", position = 1)
+    @Schema(description = "Error code")
     private String code;
-    @ApiModelProperty(notes = "Error message", position = 2)
+    @Schema(description = "Error message")
     private String msg;
 
     public DTOResponseCompat(T data) {

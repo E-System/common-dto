@@ -18,8 +18,7 @@ package com.es.lib.dto;
 
 import com.es.lib.dto.validation.DTOValidationField;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -35,11 +34,11 @@ import java.util.Collection;
 @Getter
 @NoArgsConstructor
 @ToString(callSuper = true)
-@ApiModel(description = "Request validation result")
+@Schema(description = "Request validation result")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOValidationResult extends DTOResult {
 
-    @ApiModelProperty(notes = "Request validation information", position = 2)
+    @Schema(description = "Request validation information")
     private Collection<DTOValidationField> fields;
 
     public DTOValidationResult(String code, String msg, Collection<DTOValidationField> fields) {

@@ -16,7 +16,7 @@
 
 package com.es.lib.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NoArgsConstructor;
 
 /**
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
  * @since 10.04.15
  */
 @NoArgsConstructor
-@ApiModel(description = "Response with data")
+@Schema(description = "Response with data")
 public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
 
     public DTOResponse(T data) {

@@ -17,8 +17,7 @@
 package com.es.lib.dto.validation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,12 +33,12 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "Validation field information")
+@Schema(description = "Validation field information")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DTOValidationField implements Serializable {
 
-    @ApiModelProperty(notes = "Name", position = 0)
+    @Schema(description = "Name")
     private String name;
-    @ApiModelProperty(notes = "Message", position = 1)
+    @Schema(description = "Message")
     private String msg;
 }

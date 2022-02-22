@@ -17,8 +17,7 @@
 package com.es.lib.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,13 +35,13 @@ import java.util.Collection;
 @Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
-@ApiModel(description = "Pager response")
+@Schema(description = "Pager response")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPagerResponse<T> extends DTOResponse<Collection<T>> {
 
-    @ApiModelProperty(notes = "Pager data", position = 2)
+    @Schema(description = "Pager data")
     protected DTOPager<T> pager;
-    @ApiModelProperty(notes = "Totals data", position = 3)
+    @Schema(description = "Totals data")
     protected Object totals;
 
     public DTOPagerResponse(DTOPager<T> pager) {
