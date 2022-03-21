@@ -80,12 +80,21 @@ public class Patcher<T, R> {
 
     private static void reflective(Object from, Object to, String field) {
         try {
-            Method getter = from.getClass().getMethod("get" + capitalize(field));
+            String capitalizedField = capitalize(field);
+            Method getter = findGetter(from, capitalizedField);
             Object value = getter.invoke(from);
-            Method setter = to.getClass().getMethod("set" + capitalize(field), getter.getReturnType());
+            Method setter = to.getClass().getMethod("set" + capitalizedField, getter.getReturnType());
             setter.invoke(to, value);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static Method findGetter(Object from, String capitalizedField) throws NoSuchMethodException {
+        try {
+            return from.getClass().getMethod("get" + capitalizedField);
+        } catch (NoSuchMethodException e) {
+            return from.getClass().getMethod("is" + capitalizedField);
         }
     }
 
