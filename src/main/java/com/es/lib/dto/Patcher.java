@@ -7,6 +7,7 @@ import lombok.ToString;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -46,7 +47,7 @@ public class Patcher<T, R> {
         if (checkChange) {
             return rule(new Rule<>(this, field, null, updatedFieldConsumer));
         } else {
-            return rule(field, () -> reflective(from, to, field));
+            return rule(field, () -> reflective(from, to, field, null));
         }
     }
 
@@ -156,49 +157,49 @@ public class Patcher<T, R> {
                     }
                     toSetter.accept(owner.to, newValue);
                 } else {
-                    try {
-                        String capitalizedField = capitalize(field);
-                        Method fromGetter = findGetter(owner.from, capitalizedField);
-                        Object newValue = fromGetter.invoke(owner.from);
-
-                        Method toGetter = findGetter(owner.to, capitalizedField);
-                        Object oldValue = toGetter.invoke(owner.to);
-                        String newValueString = newValue == null ? null : newValue.toString();
-                        String oldValueString = oldValue == null ? null : oldValue.toString();
-                        if (!Objects.equals(newValueString, oldValueString)) {
-                            UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
-                            updatedFields.add(updatedField);
-                            if (updatedFieldCallback != null) {
-                                updatedFieldCallback.accept(updatedField);
+                    reflective(owner.from, owner.to, field, (newValue, capitalizedField) -> {
+                        try {
+                            Method toGetter = findGetter(owner.to, capitalizedField);
+                            Object oldValue = toGetter.invoke(owner.to);
+                            String newValueString = newValue == null ? null : newValue.toString();
+                            String oldValueString = oldValue == null ? null : oldValue.toString();
+                            if (!Objects.equals(newValueString, oldValueString)) {
+                                UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
+                                updatedFields.add(updatedField);
+                                if (updatedFieldCallback != null) {
+                                    updatedFieldCallback.accept(updatedField);
+                                }
                             }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
-                        Method toSetter = owner.to.getClass().getMethod("set" + capitalizedField, fromGetter.getReturnType());
-                        toSetter.invoke(owner.to, newValue);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    });
                 }
             }
         }
     }
 
-    private static void reflective(Object from, Object to, String field) {
+    private static void reflective(Object from, Object to, String field, BiConsumer<Object, String> processor) {
         try {
             String capitalizedField = capitalize(field);
-            Method getter = findGetter(from, capitalizedField);
-            Object value = getter.invoke(from);
-            Method setter = to.getClass().getMethod("set" + capitalizedField, getter.getReturnType());
-            setter.invoke(to, value);
+            Method fromGetter = findGetter(from, capitalizedField);
+            Object newValue = fromGetter.invoke(from);
+            if (processor != null) {
+                processor.accept(newValue, capitalizedField);
+            }
+            Method toSetter = to.getClass().getMethod("set" + capitalizedField, fromGetter.getReturnType());
+            toSetter.invoke(to, newValue);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private static Method findGetter(Object from, String capitalizedField) throws NoSuchMethodException {
+        Class<?> aClass = from.getClass();
         try {
-            return from.getClass().getMethod("get" + capitalizedField);
+            return aClass.getMethod("get" + capitalizedField);
         } catch (NoSuchMethodException e) {
-            return from.getClass().getMethod("is" + capitalizedField);
+            return aClass.getMethod("is" + capitalizedField);
         }
     }
 
