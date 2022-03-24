@@ -112,7 +112,7 @@ public class Patcher<T, R> {
 
         private final Function<R, R2> callbackGetter;
         private final Function<R2, String> callbackConverter;
-        private final Consumer<UpdatedField> updatedFieldConsumer;
+        private final Consumer<UpdatedField> updatedFieldCallback;
 
         public Rule(Patcher<T, R> owner, String field, Runnable runnable) {
             this(owner, field, runnable, null, null, null, null, null, null, null);
@@ -144,13 +144,13 @@ public class Patcher<T, R> {
                     R2 newValue = converter.apply(fromGetter.apply(owner.from));
                     if (callbackGetter != null) {
                         R2 oldValue = callbackGetter.apply(owner.to);
-                        String newValueString = callbackConverter.apply(newValue);
-                        String oldValueString = callbackConverter.apply(oldValue);
+                        String newValueString = newValue == null ? null : callbackConverter.apply(newValue);
+                        String oldValueString = oldValue == null ? null : callbackConverter.apply(oldValue);
                         if (!Objects.equals(newValueString, oldValueString)) {
                             UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
                             updatedFields.add(updatedField);
-                            if (updatedFieldConsumer != null) {
-                                updatedFieldConsumer.accept(updatedField);
+                            if (updatedFieldCallback != null) {
+                                updatedFieldCallback.accept(updatedField);
                             }
                         }
                     }
@@ -163,13 +163,13 @@ public class Patcher<T, R> {
 
                         Method toGetter = findGetter(owner.to, capitalizedField);
                         Object oldValue = toGetter.invoke(owner.to);
-                        String newValueString = newValue.toString();
-                        String oldValueString = oldValue.toString();
+                        String newValueString = newValue == null ? null : newValue.toString();
+                        String oldValueString = oldValue == null ? null : oldValue.toString();
                         if (!Objects.equals(newValueString, oldValueString)) {
                             UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
                             updatedFields.add(updatedField);
-                            if (updatedFieldConsumer != null) {
-                                updatedFieldConsumer.accept(updatedField);
+                            if (updatedFieldCallback != null) {
+                                updatedFieldCallback.accept(updatedField);
                             }
                         }
                         Method toSetter = owner.to.getClass().getMethod("set" + capitalizedField, fromGetter.getReturnType());

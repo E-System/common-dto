@@ -92,18 +92,33 @@ class PatcherSpec extends Specification {
         entity.valid == dto.valid
     }
 
-    /*def "On change callback"(){
+    def "On change fields"(){
         when:
         DTO dto = new DTO("NAME", "NAME2", new DTOInternal(1), EntityCode.CODE.name(), true)
         Entity entity = new Entity()
-        Patcher.create(dto, entity, Arrays.asList("name", "name2", "role", "code", "valid"))
-            .rule("name")
-            .rule("name2")
-            .rule("valid")
+        def items = Patcher.create(dto, entity, Arrays.asList("name", "name2", "role", "code", "valid"))
+            .rule("name", true)
+            .rule("name2", true)
+            .rule("valid", true)
             .rule("role", DTO::getRole, Entity::setRole, v -> new EntityInternal(v.getId()))
-            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf)
+            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf, Entity::getCode, v->v.toString())
             .apply()
-    }*/
+        then:
+        !items.empty
+        items.size() == 4
+        items[0].field == 'name'
+        items[0].was == null
+        items[0].became == 'NAME'
+        items[1].field == 'name2'
+        items[1].was == null
+        items[1].became == 'NAME2'
+        items[2].field == 'valid'
+        items[2].was == 'false'
+        items[2].became == 'true'
+        items[3].field == 'code'
+        items[3].was == null
+        items[3].became == 'CODE'
+    }
 
     static class DTOInternal {
 
