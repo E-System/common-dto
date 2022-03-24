@@ -142,7 +142,7 @@ class PatcherSpec extends Specification {
             this.name2 = name2
             this.role = role
             this.code = code
-            this.valid = valid;
+            this.valid = valid
         }
     }
 
