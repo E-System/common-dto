@@ -92,6 +92,19 @@ class PatcherSpec extends Specification {
         entity.valid == dto.valid
     }
 
+    /*def "On change callback"(){
+        when:
+        DTO dto = new DTO("NAME", "NAME2", new DTOInternal(1), EntityCode.CODE.name(), true)
+        Entity entity = new Entity()
+        Patcher.create(dto, entity, Arrays.asList("name", "name2", "role", "code", "valid"))
+            .rule("name")
+            .rule("name2")
+            .rule("valid")
+            .rule("role", DTO::getRole, Entity::setRole, v -> new EntityInternal(v.getId()))
+            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf)
+            .apply()
+    }*/
+
     static class DTOInternal {
 
         Integer id

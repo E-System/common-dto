@@ -1,13 +1,13 @@
 package com.es.lib.dto;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class Patcher<T, R> {
     private final T from;
     private final R to;
     private final Set<String> fields;
-    private final Collection<Rule> rules = new ArrayList<>();
+    private final Collection<Rule<T, R, ?, ?>> rules = new ArrayList<>();
 
     public static <T, R> Patcher<T, R> create(T from, R to) {
         return create(from, to, null);
@@ -35,45 +35,149 @@ public class Patcher<T, R> {
     }
 
     public Patcher<T, R> rule(String field) {
-        return rule(new Rule(field, () -> reflective(from, to, field)));
+        return rule(field, false);
+    }
+
+    public Patcher<T, R> rule(String field, boolean checkChange) {
+        return rule(field, checkChange, null);
+    }
+
+    public Patcher<T, R> rule(String field, boolean checkChange, Consumer<UpdatedField> updatedFieldConsumer) {
+        if (checkChange) {
+            return rule(new Rule<>(this, field, null, updatedFieldConsumer));
+        } else {
+            return rule(field, () -> reflective(from, to, field));
+        }
+    }
+
+    public Patcher<T, R> rule(String field, Runnable runnable) {
+        return rule(new Rule<>(this, field, runnable));
     }
 
     public Patcher<T, R> rule(String field, BiConsumer<T, R> consumer) {
-        return rule(new Rule(field, () -> consumer.accept(from, to)));
+        return rule(new Rule<>(this, field, consumer));
     }
 
-    public <R1> Patcher<T, R> rule(String field, Function<T, R1> getter, BiConsumer<R, R1> setter) {
-        return rule(field, getter, setter, v -> v);
+    public <R1> Patcher<T, R> rule(String field, Function<T, R1> fromGetter, BiConsumer<R, R1> toSetter) {
+        return rule(field, fromGetter, toSetter, v -> v);
     }
 
-    public <R1, R2> Patcher<T, R> rule(String field, Function<T, R1> getter, BiConsumer<R, R2> setter, Function<R1, R2> converter) {
-        return rule(new Rule(field, () -> setter.accept(to, converter.apply(getter.apply(from)))));
+    public <R1, R2> Patcher<T, R> rule(String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter) {
+        return rule(field, fromGetter, toSetter, converter, null, null);
     }
 
-    private Patcher<T, R> rule(String field, Runnable runnable) {
-        return rule(new Rule(field, runnable));
+    public <R1, R2> Patcher<T, R> rule(String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter) {
+        return rule(field, fromGetter, toSetter, converter, callbackGetter, callbackConverter, null);
     }
 
-    private Patcher<T, R> rule(Rule rule) {
+    public <R1, R2> Patcher<T, R> rule(String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter, Consumer<UpdatedField> updatedFieldConsumer) {
+        return rule(new Rule<>(this, field, fromGetter, toSetter, converter, callbackGetter, callbackConverter, updatedFieldConsumer));
+    }
+
+    private <R1, R2> Patcher<T, R> rule(Rule<T, R, R1, R2> rule) {
         rules.add(rule);
         return this;
     }
 
-    public void apply() {
-        for (Rule rule : rules) {
-            rule.invoke(fields);
+    public Collection<UpdatedField> apply() {
+        Collection<UpdatedField> result = new ArrayList<>();
+        for (Rule<T, R, ?, ?> rule : rules) {
+            rule.invoke(fields, result);
         }
+        return result;
+    }
+
+    @ToString
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdatedField {
+
+        private final String field;
+        private final String was;
+        private final String became;
     }
 
     @RequiredArgsConstructor
-    private static class Rule {
+    private static class Rule<T, R, R1, R2> {
 
+        private final Patcher<T, R> owner;
         private final String field;
         private final Runnable runnable;
 
-        void invoke(Set<String> fields) {
+        private final BiConsumer<T, R> consumer;
+
+        private final Function<T, R1> fromGetter;
+        private final BiConsumer<R, R2> toSetter;
+        private final Function<R1, R2> converter;
+
+        private final Function<R, R2> callbackGetter;
+        private final Function<R2, String> callbackConverter;
+        private final Consumer<UpdatedField> updatedFieldConsumer;
+
+        public Rule(Patcher<T, R> owner, String field, Runnable runnable) {
+            this(owner, field, runnable, null, null, null, null, null, null, null);
+        }
+
+        public Rule(Patcher<T, R> owner, String field, Function<R2, String> callbackConverter) {
+            this(owner, field, callbackConverter, null);
+        }
+
+        public Rule(Patcher<T, R> owner, String field, Function<R2, String> callbackConverter, Consumer<UpdatedField> updatedFieldConsumer) {
+            this(owner, field, null, null, null, null, null, null, callbackConverter, updatedFieldConsumer);
+        }
+
+        public Rule(Patcher<T, R> owner, String field, BiConsumer<T, R> consumer) {
+            this(owner, field, null, consumer, null, null, null, null, null, null);
+        }
+
+        public Rule(Patcher<T, R> owner, String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter, Consumer<UpdatedField> updatedFieldConsumer) {
+            this(owner, field, null, null, fromGetter, toSetter, converter, callbackGetter, callbackConverter, updatedFieldConsumer);
+        }
+
+        void invoke(Set<String> fields, Collection<UpdatedField> updatedFields) {
             if (fields == null || fields.contains(field)) {
-                runnable.run();
+                if (runnable != null) {
+                    runnable.run();
+                } else if (consumer != null) {
+                    consumer.accept(owner.from, owner.to);
+                } else if (fromGetter != null) {
+                    R2 newValue = converter.apply(fromGetter.apply(owner.from));
+                    if (callbackGetter != null) {
+                        R2 oldValue = callbackGetter.apply(owner.to);
+                        String newValueString = callbackConverter.apply(newValue);
+                        String oldValueString = callbackConverter.apply(oldValue);
+                        if (!Objects.equals(newValueString, oldValueString)) {
+                            UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
+                            updatedFields.add(updatedField);
+                            if (updatedFieldConsumer != null) {
+                                updatedFieldConsumer.accept(updatedField);
+                            }
+                        }
+                    }
+                    toSetter.accept(owner.to, newValue);
+                } else {
+                    try {
+                        String capitalizedField = capitalize(field);
+                        Method fromGetter = findGetter(owner.from, capitalizedField);
+                        Object newValue = fromGetter.invoke(owner.from);
+
+                        Method toGetter = findGetter(owner.to, capitalizedField);
+                        Object oldValue = toGetter.invoke(owner.to);
+                        String newValueString = newValue.toString();
+                        String oldValueString = oldValue.toString();
+                        if (!Objects.equals(newValueString, oldValueString)) {
+                            UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
+                            updatedFields.add(updatedField);
+                            if (updatedFieldConsumer != null) {
+                                updatedFieldConsumer.accept(updatedField);
+                            }
+                        }
+                        Method toSetter = owner.to.getClass().getMethod("set" + capitalizedField, fromGetter.getReturnType());
+                        toSetter.invoke(owner.to, newValue);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         }
     }
