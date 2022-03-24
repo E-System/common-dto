@@ -3,6 +3,7 @@ package com.es.lib.dto
 import spock.lang.Specification
 
 import java.util.function.BiConsumer
+import java.util.function.Consumer
 
 class PatcherSpec extends Specification {
 
@@ -92,7 +93,7 @@ class PatcherSpec extends Specification {
         entity.valid == dto.valid
     }
 
-    def "On change fields"(){
+    def "On change fields"() {
         when:
         DTO dto = new DTO("NAME", "NAME2", new DTOInternal(1), EntityCode.CODE.name(), true)
         Entity entity = new Entity()
@@ -101,7 +102,7 @@ class PatcherSpec extends Specification {
             .rule("name2", true)
             .rule("valid", true)
             .rule("role", DTO::getRole, Entity::setRole, v -> new EntityInternal(v.getId()))
-            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf, Entity::getCode, v->v.toString())
+            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf, Entity::getCode, v -> v.toString())
             .apply()
         then:
         !items.empty
@@ -118,6 +119,56 @@ class PatcherSpec extends Specification {
         items[3].field == 'code'
         items[3].was == null
         items[3].became == 'CODE'
+    }
+
+    def "On change fields with callback"() {
+        when:
+        List<Patcher.UpdatedField> callbackItems = []
+        def consumer = new Consumer<Patcher.UpdatedField>() {
+            @Override
+            void accept(Patcher.UpdatedField updatedField) {
+                callbackItems.add(updatedField)
+            }
+        }
+        DTO dto = new DTO("NAME", "NAME2", new DTOInternal(1), EntityCode.CODE.name(), true)
+        Entity entity = new Entity()
+        def items = Patcher.create(dto, entity, Arrays.asList("name", "name2", "role", "code", "valid"))
+            .rule("name", true, consumer)
+            .rule("name2", true, consumer)
+            .rule("valid", true, consumer)
+            .rule("role", DTO::getRole, Entity::setRole, v -> new EntityInternal(v.getId()))
+            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf, Entity::getCode, v -> v.toString(), consumer)
+            .apply()
+        then:
+        !items.empty
+        items.size() == 4
+        items[0].field == 'name'
+        items[0].was == null
+        items[0].became == 'NAME'
+        items[1].field == 'name2'
+        items[1].was == null
+        items[1].became == 'NAME2'
+        items[2].field == 'valid'
+        items[2].was == 'false'
+        items[2].became == 'true'
+        items[3].field == 'code'
+        items[3].was == null
+        items[3].became == 'CODE'
+
+        !callbackItems.empty
+        callbackItems.size() == 4
+        callbackItems[0].field == 'name'
+        callbackItems[0].was == null
+        callbackItems[0].became == 'NAME'
+        callbackItems[1].field == 'name2'
+        callbackItems[1].was == null
+        callbackItems[1].became == 'NAME2'
+        callbackItems[2].field == 'valid'
+        callbackItems[2].was == 'false'
+        callbackItems[2].became == 'true'
+        callbackItems[3].field == 'code'
+        callbackItems[3].was == null
+        callbackItems[3].became == 'CODE'
     }
 
     static class DTOInternal {
