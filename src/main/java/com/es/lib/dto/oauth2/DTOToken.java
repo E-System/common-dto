@@ -43,8 +43,7 @@ public class DTOToken implements Serializable {
     @JsonProperty(value = "jti")
     private String jti;
 
-    public DTOToken(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+    public DTOToken(String accessToken, String refreshToken, String tokenType) {
+        this(accessToken, tokenType, refreshToken, 0, null, null);
     }
 }
