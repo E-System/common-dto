@@ -1,5 +1,6 @@
 package com.es.lib.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -91,6 +92,7 @@ public class Patcher<T, R> {
     @ToString
     @Getter
     @RequiredArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class UpdatedField {
 
         private final String field;
