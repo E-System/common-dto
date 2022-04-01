@@ -8,7 +8,6 @@ import lombok.ToString;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -82,9 +81,13 @@ public class Patcher<T, R> {
     }
 
     public Collection<UpdatedField> apply() {
+        return apply(null);
+    }
+
+    public Collection<UpdatedField> apply(Map<String, String> labels) {
         Collection<UpdatedField> result = new ArrayList<>();
         for (Rule<T, R, ?, ?> rule : rules) {
-            rule.invoke(fields, result);
+            rule.invoke(fields, result, labels);
         }
         return result;
     }
@@ -137,7 +140,7 @@ public class Patcher<T, R> {
             this(owner, field, null, null, fromGetter, toSetter, converter, callbackGetter, callbackConverter, updatedFieldConsumer);
         }
 
-        void invoke(Set<String> fields, Collection<UpdatedField> updatedFields) {
+        void invoke(Set<String> fields, Collection<UpdatedField> updatedFields, Map<String, String> labels) {
             if (fields == null || fields.contains(field)) {
                 if (runnable != null) {
                     runnable.run();
@@ -150,7 +153,7 @@ public class Patcher<T, R> {
                         String newValueString = newValue == null ? null : callbackConverter.apply(newValue);
                         String oldValueString = oldValue == null ? null : callbackConverter.apply(oldValue);
                         if (!Objects.equals(newValueString, oldValueString)) {
-                            UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
+                            UpdatedField updatedField = new UpdatedField(getFieldName(field, labels), oldValueString, newValueString);
                             updatedFields.add(updatedField);
                             if (updatedFieldCallback != null) {
                                 updatedFieldCallback.accept(updatedField);
@@ -166,7 +169,7 @@ public class Patcher<T, R> {
                             String newValueString = newValue == null ? null : newValue.toString();
                             String oldValueString = oldValue == null ? null : oldValue.toString();
                             if (!Objects.equals(newValueString, oldValueString)) {
-                                UpdatedField updatedField = new UpdatedField(field, oldValueString, newValueString);
+                                UpdatedField updatedField = new UpdatedField(getFieldName(field, labels), oldValueString, newValueString);
                                 updatedFields.add(updatedField);
                                 if (updatedFieldCallback != null) {
                                     updatedFieldCallback.accept(updatedField);
@@ -178,6 +181,13 @@ public class Patcher<T, R> {
                     });
                 }
             }
+        }
+
+        private String getFieldName(String field, Map<String, String> labels) {
+            if (labels == null) {
+                return field;
+            }
+            return labels.getOrDefault(field, field);
         }
     }
 

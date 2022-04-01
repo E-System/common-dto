@@ -171,6 +171,56 @@ class PatcherSpec extends Specification {
         callbackItems[3].became == 'CODE'
     }
 
+    def "On change fields with callback and labels"() {
+        when:
+        List<Patcher.UpdatedField> callbackItems = []
+        def consumer = new Consumer<Patcher.UpdatedField>() {
+            @Override
+            void accept(Patcher.UpdatedField updatedField) {
+                callbackItems.add(updatedField)
+            }
+        }
+        DTO dto = new DTO("NAME", "NAME2", new DTOInternal(1), EntityCode.CODE.name(), true)
+        Entity entity = new Entity()
+        def items = Patcher.create(dto, entity, Arrays.asList("name", "name2", "role", "code", "valid"))
+            .rule("name", true, consumer)
+            .rule("name2", true, consumer)
+            .rule("valid", true, consumer)
+            .rule("role", DTO::getRole, Entity::setRole, v -> new EntityInternal(v.getId()))
+            .rule("code", DTO::getCode, Entity::setCode, EntityCode::valueOf, Entity::getCode, v -> v.toString(), consumer)
+            .apply([name: "Name", code: "Code"])
+        then:
+        !items.empty
+        items.size() == 4
+        items[0].field == 'Name'
+        items[0].was == null
+        items[0].became == 'NAME'
+        items[1].field == 'name2'
+        items[1].was == null
+        items[1].became == 'NAME2'
+        items[2].field == 'valid'
+        items[2].was == 'false'
+        items[2].became == 'true'
+        items[3].field == 'Code'
+        items[3].was == null
+        items[3].became == 'CODE'
+
+        !callbackItems.empty
+        callbackItems.size() == 4
+        callbackItems[0].field == 'Name'
+        callbackItems[0].was == null
+        callbackItems[0].became == 'NAME'
+        callbackItems[1].field == 'name2'
+        callbackItems[1].was == null
+        callbackItems[1].became == 'NAME2'
+        callbackItems[2].field == 'valid'
+        callbackItems[2].was == 'false'
+        callbackItems[2].became == 'true'
+        callbackItems[3].field == 'Code'
+        callbackItems[3].was == null
+        callbackItems[3].became == 'CODE'
+    }
+
     static class DTOInternal {
 
         Integer id
