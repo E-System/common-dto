@@ -1,11 +1,16 @@
 package com.es.lib.dto
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import spock.lang.Shared
 import spock.lang.Specification
 
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
 class PatcherSpec extends Specification {
+
+    @Shared
+    def mapper = new ObjectMapper()
 
     def "Rules all"() {
         when:
@@ -219,6 +224,17 @@ class PatcherSpec extends Specification {
         callbackItems[3].field == 'Code'
         callbackItems[3].was == null
         callbackItems[3].became == 'CODE'
+    }
+
+    def "Serialize and deserialize UpdatedField"(){
+        when:
+        def item = new Patcher.UpdatedField('code', 'was', 'became')
+        def json = mapper.writeValueAsString(item)
+        def result = mapper.readValue(json, Patcher.UpdatedField.class)
+        then:
+        item.field == result.field
+        item.was == result.was
+        item.became == result.became
     }
 
     static class DTOInternal {

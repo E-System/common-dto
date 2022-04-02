@@ -1,6 +1,8 @@
 package com.es.lib.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -94,13 +96,19 @@ public class Patcher<T, R> {
 
     @ToString
     @Getter
-    @RequiredArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class UpdatedField {
 
         private final String field;
         private final String was;
         private final String became;
+
+        @JsonCreator
+        public UpdatedField(@JsonProperty("field") String field, @JsonProperty("was") String was, @JsonProperty("became") String became) {
+            this.field = field;
+            this.was = was;
+            this.became = became;
+        }
     }
 
     @RequiredArgsConstructor
