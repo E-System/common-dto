@@ -237,6 +237,14 @@ class PatcherSpec extends Specification {
         item.became == result.became
     }
 
+    def "Equals for UpdatedField"(){
+        expect:
+        new Patcher.UpdatedField('field', null, null) == new Patcher.UpdatedField('field', null, null)
+        new Patcher.UpdatedField('field', 'was', null) == new Patcher.UpdatedField('field', 'was', null)
+        new Patcher.UpdatedField('field', 'was', 'became') == new Patcher.UpdatedField('field', 'was', 'became')
+        new Patcher.UpdatedField('field', 'was', 'became') != new Patcher.UpdatedField('field', 'was', 'became1')
+    }
+
     static class DTOInternal {
 
         Integer id
