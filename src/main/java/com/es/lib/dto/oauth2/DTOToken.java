@@ -53,6 +53,10 @@ public class DTOToken implements Serializable {
         DTOToken getToken();
 
         DTOToken setToken(DTOToken token);
+
+        default boolean isEmpty() {
+            return getToken() == null;
+        }
     }
 
     @Getter
