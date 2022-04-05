@@ -11,10 +11,7 @@ package com.es.lib.dto.oauth2;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -49,5 +46,21 @@ public class DTOToken implements Serializable {
 
     public DTOToken(String accessToken, String refreshToken, String tokenType, String scope) {
         this(accessToken, tokenType, refreshToken, 0, scope, null);
+    }
+
+    public interface Store {
+
+        DTOToken getToken();
+
+        DTOToken setToken(DTOToken token);
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DefaultStore {
+
+        private DTOToken token;
     }
 }
