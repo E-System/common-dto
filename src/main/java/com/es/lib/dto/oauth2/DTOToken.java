@@ -59,7 +59,7 @@ public class DTOToken implements Serializable {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class DefaultStore {
+    public static class DefaultStore implements Store {
 
         private DTOToken token;
     }
