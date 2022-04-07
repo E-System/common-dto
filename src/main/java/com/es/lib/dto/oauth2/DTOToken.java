@@ -44,7 +44,7 @@ public class DTOToken implements Serializable {
     private String jti;
 
     public DTOToken(String accessToken, String refreshToken, String tokenType) {
-        this(accessToken, tokenType, refreshToken, null);
+        this(accessToken, refreshToken, tokenType, null);
     }
 
     public DTOToken(String accessToken, String refreshToken, String tokenType, String scope) {
