@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Simple file store info
@@ -31,4 +32,10 @@ public class DTOFileStore implements Serializable {
     private String mime;
     @Schema(description = "File size")
     private long size;
+    @Schema(description = "External identifiers")
+    private Map<String, String> extIds;
+
+    public DTOFileStore(String id, String name, String ext, String mime, long size) {
+        this(id, name, ext, mime, size, null);
+    }
 }
