@@ -25,6 +25,10 @@ public interface IRequestParams {
      */
     String OFFSET = "offset";
     /**
+     * Request param name for sort
+     */
+    String SORT = "sort";
+    /**
      * Params for pager
      */
     Collection<String> ForPager = Arrays.asList(PAGE, LIMIT);
