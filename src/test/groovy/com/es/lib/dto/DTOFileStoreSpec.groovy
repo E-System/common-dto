@@ -42,7 +42,6 @@ class DTOFileStoreSpec extends Specification {
         when:
         def id = '123'
         def url = 'url'
-        def extIds = [hello: 'helloValue']
         def p = new DTOFileStore(id, url)
         then:
         p.id == id
