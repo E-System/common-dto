@@ -1,5 +1,6 @@
 package com.es.lib.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -47,5 +48,15 @@ public class DTOFileStore implements Serializable {
 
     public DTOFileStore(String id, String url) {
         this(id, null, null, null, 0, null, url);
+    }
+
+    @JsonIgnore
+    public Long getLongId() {
+        return id != null ? Long.parseLong(id) : null;
+    }
+
+    @JsonIgnore
+    public Integer getIntId() {
+        return id != null ? Integer.parseInt(id) : null;
     }
 }

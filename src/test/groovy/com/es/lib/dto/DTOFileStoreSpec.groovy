@@ -48,4 +48,12 @@ class DTOFileStoreSpec extends Specification {
         p.id == id
         p.url == url
     }
+
+    def "Get parsed id"(){
+        expect:
+        new DTOFileStore(null, "").intId == null
+        new DTOFileStore(null, "").longId == null
+        new DTOFileStore("1", "").longId == 1L
+        new DTOFileStore("1", "").intId == 1
+    }
 }
