@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +22,18 @@ public class DTOImageReference {
     private String name;
     @Schema(description = "Image")
     private DTOFileStore image;
+
+    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items) {
+        return create(items, null);
+    }
+
+    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix) {
+        return create(items, imagePrefix, null);
+    }
+
+    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, String ext) {
+        return items.stream().map(v -> create(v.getKey(), v.getValue(), imagePrefix, ext)).collect(Collectors.toList());
+    }
 
     public static DTOImageReference create(Enum<?> value, String name) {
         return create(value, name, null, null);

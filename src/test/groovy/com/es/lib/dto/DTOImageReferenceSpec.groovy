@@ -4,7 +4,29 @@ import spock.lang.Specification
 
 class DTOImageReferenceSpec extends Specification {
     enum TestEnum {
-        VALUE1
+        VALUE1,
+        VALUE2
+    }
+
+    def "Create from items"() {
+        when:
+        def ext = 'png'
+        def res = DTOImageReference.create([
+            new AbstractMap.SimpleEntry(TestEnum.VALUE1, 'VAL1'),
+            new AbstractMap.SimpleEntry(TestEnum.VALUE2, 'VAL2')
+        ])
+        then:
+        res.size() == 2
+        res[0].id == TestEnum.VALUE1.name()
+        res[0].name == 'VAL1'
+        res[0].image.id == TestEnum.VALUE1.name() + '.' + ext
+        res[0].image.name == TestEnum.VALUE1.name()
+        res[0].image.ext == ext
+        res[1].id == TestEnum.VALUE2.name()
+        res[1].name == 'VAL2'
+        res[1].image.id == TestEnum.VALUE2.name() + '.' + ext
+        res[1].image.name == TestEnum.VALUE2.name()
+        res[1].image.ext == ext
     }
 
     def "Create"() {
