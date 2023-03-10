@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Reference with image")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOImageReference {
+    @Schema(description = "ID")
     private String id;
+    @Schema(description = "Name")
     private String name;
+    @Schema(description = "Image")
     private DTOFileStore image;
 }
