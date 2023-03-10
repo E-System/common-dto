@@ -18,4 +18,30 @@ public class DTOImageReference {
     private String name;
     @Schema(description = "Image")
     private DTOFileStore image;
+
+    public static DTOImageReference create(Enum<?> value, String name) {
+        return create(value, name, null, null);
+    }
+
+    public static DTOImageReference create(Enum<?> value, String name, String imagePrefix) {
+        return create(value, name, imagePrefix, null);
+    }
+
+    public static DTOImageReference create(Enum<?> value, String name, String pathPrefix, String ext) {
+        if (ext == null || ext.isEmpty()) {
+            ext = "png";
+        }
+        String path = ((pathPrefix != null && !pathPrefix.isEmpty()) ? (pathPrefix + "/") : "") + value.name() + "." + ext;
+        return new DTOImageReference(
+            value.name(),
+            name,
+            new DTOFileStore(
+                path,
+                value.name(),
+                ext,
+                null,
+                0
+            )
+        );
+    }
 }
