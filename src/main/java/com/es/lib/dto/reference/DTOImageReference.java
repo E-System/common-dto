@@ -29,50 +29,51 @@ public class DTOImageReference {
     @Schema(description = "Image")
     private DTOFileStore image;
 
-    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items) {
-        return create(items, (Function<Map.Entry<Enum<?>, String>, String>) null);
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items) {
+        return create(items, (Function<Map.Entry<T, String>, String>) null);
     }
 
-    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, String> descriptionEvaluator) {
         return create(items, null, descriptionEvaluator);
     }
 
-    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix) {
         return create(items, imagePrefix, null, null);
     }
 
-    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, Function<Map.Entry<T, String>, String> descriptionEvaluator) {
         return create(items, imagePrefix, null, descriptionEvaluator);
     }
 
-    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, String ext) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, String ext) {
         return create(items, imagePrefix, ext, null);
     }
 
-    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, String ext, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, String ext, Function<Map.Entry<T, String>, String> descriptionEvaluator) {
         return items.stream().map(v -> create(v.getKey(), v.getValue(), imagePrefix, ext, descriptionEvaluator)).collect(Collectors.toList());
     }
 
-    public static DTOImageReference create(Enum<?> value, String name) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name) {
         return create(value, name, null, null, null);
     }
 
-    public static DTOImageReference create(Enum<?> value, String name, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, Function<Map.Entry<T, String>, String> descriptionEvaluator) {
         return create(value, name, null, null, descriptionEvaluator);
     }
 
-    public static DTOImageReference create(Enum<?> value, String name, String imagePrefix) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String imagePrefix) {
         return create(value, name, imagePrefix, null, null);
     }
 
-    public static DTOImageReference create(Enum<?> value, String name, String imagePrefix, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String imagePrefix, Function<Map.Entry<T, String>, String> descriptionEvaluator) {
         return create(value, name, imagePrefix, null, descriptionEvaluator);
     }
 
-    public static DTOImageReference create(Enum<?> value, String name, String pathPrefix, String ext) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String pathPrefix, String ext) {
         return create(value, name, pathPrefix, ext, null);
     }
-    public static DTOImageReference create(Enum<?> value, String name, String pathPrefix, String ext, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String pathPrefix, String ext, Function<Map.Entry<T, String>, String> descriptionEvaluator) {
         if (ext == null || ext.isEmpty()) {
             ext = "png";
         }
