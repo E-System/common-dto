@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Data
@@ -17,34 +19,60 @@ import java.util.stream.Collectors;
 @Schema(description = "Reference with image")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOImageReference {
+
     @Schema(description = "ID")
     private String id;
     @Schema(description = "Name")
     private String name;
+    @Schema(description = "Description")
+    private String description;
     @Schema(description = "Image")
     private DTOFileStore image;
 
     public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items) {
-        return create(items, null);
+        return create(items, (Function<Map.Entry<Enum<?>, String>, String>) null);
+    }
+
+    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+        return create(items, null, descriptionEvaluator);
     }
 
     public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix) {
-        return create(items, imagePrefix, null);
+        return create(items, imagePrefix, null, null);
+    }
+
+    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+        return create(items, imagePrefix, null, descriptionEvaluator);
     }
 
     public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, String ext) {
-        return items.stream().map(v -> create(v.getKey(), v.getValue(), imagePrefix, ext)).collect(Collectors.toList());
+        return create(items, imagePrefix, ext, null);
+    }
+
+    public static Collection<DTOImageReference> create(Collection<Map.Entry<Enum<?>, String>> items, String imagePrefix, String ext, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+        return items.stream().map(v -> create(v.getKey(), v.getValue(), imagePrefix, ext, descriptionEvaluator)).collect(Collectors.toList());
     }
 
     public static DTOImageReference create(Enum<?> value, String name) {
-        return create(value, name, null, null);
+        return create(value, name, null, null, null);
+    }
+
+    public static DTOImageReference create(Enum<?> value, String name, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+        return create(value, name, null, null, descriptionEvaluator);
     }
 
     public static DTOImageReference create(Enum<?> value, String name, String imagePrefix) {
-        return create(value, name, imagePrefix, null);
+        return create(value, name, imagePrefix, null, null);
+    }
+
+    public static DTOImageReference create(Enum<?> value, String name, String imagePrefix, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
+        return create(value, name, imagePrefix, null, descriptionEvaluator);
     }
 
     public static DTOImageReference create(Enum<?> value, String name, String pathPrefix, String ext) {
+        return create(value, name, pathPrefix, ext, null);
+    }
+    public static DTOImageReference create(Enum<?> value, String name, String pathPrefix, String ext, Function<Map.Entry<Enum<?>, String>, String> descriptionEvaluator) {
         if (ext == null || ext.isEmpty()) {
             ext = "png";
         }
@@ -52,6 +80,7 @@ public class DTOImageReference {
         return new DTOImageReference(
             value.name(),
             name,
+            descriptionEvaluator != null ? descriptionEvaluator.apply(new AbstractMap.SimpleEntry<>(value, name)) : null,
             new DTOFileStore(
                 path,
                 value.name(),

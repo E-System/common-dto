@@ -1,4 +1,4 @@
-package com.es.lib.dto
+package com.es.lib.dto.reference
 
 import spock.lang.Specification
 
@@ -12,8 +12,8 @@ class DTOImageReferenceSpec extends Specification {
         when:
         def ext = 'png'
         def res = DTOImageReference.create([
-            new AbstractMap.SimpleEntry(TestEnum.VALUE1, 'VAL1'),
-            new AbstractMap.SimpleEntry(TestEnum.VALUE2, 'VAL2')
+                new AbstractMap.SimpleEntry(TestEnum.VALUE1, 'VAL1'),
+                new AbstractMap.SimpleEntry(TestEnum.VALUE2, 'VAL2')
         ])
         then:
         res.size() == 2
@@ -75,6 +75,22 @@ class DTOImageReferenceSpec extends Specification {
         then:
         res.id == TestEnum.VALUE1.name()
         res.name == 'VAL1'
+        res.image.id == TestEnum.VALUE1.name() + '.' + ext
+        res.image.name == TestEnum.VALUE1.name()
+        res.image.ext == ext
+    }
+
+    def "Create with empty prefix ang ext and description evaluator"() {
+        when:
+        def prefix = null
+        def ext = 'jpg'
+        def res = DTOImageReference.create(TestEnum.VALUE1, 'VAL1', prefix, ext, {
+            return it.key.name() + it.value
+        })
+        then:
+        res.id == TestEnum.VALUE1.name()
+        res.name == 'VAL1'
+        res.description == TestEnum.VALUE1.name() + 'VAL1'
         res.image.id == TestEnum.VALUE1.name() + '.' + ext
         res.image.name == TestEnum.VALUE1.name()
         res.image.ext == ext
