@@ -1,38 +1,49 @@
 package com.es.lib.dto.calendar
 
+import com.es.lib.dto.reference.DTOReference
 import spock.lang.Specification
+
+import java.time.DayOfWeek
 
 class DTOWorkTimeSpec extends Specification {
 
     def 'GetTitle'() {
         when:
-        def dofTitles = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+        def dayOfWeeks = DTOReference.create([
+                new AbstractMap.SimpleEntry(DayOfWeek.MONDAY, "Понедельник"),
+                new AbstractMap.SimpleEntry(DayOfWeek.TUESDAY, "Вторник"),
+                new AbstractMap.SimpleEntry(DayOfWeek.WEDNESDAY, "Среда"),
+                new AbstractMap.SimpleEntry(DayOfWeek.THURSDAY, "Четверг"),
+                new AbstractMap.SimpleEntry(DayOfWeek.FRIDAY, "Пятница"),
+                new AbstractMap.SimpleEntry(DayOfWeek.SATURDAY, "Суббота"),
+                new AbstractMap.SimpleEntry(DayOfWeek.SUNDAY, "Воскресенье")
+        ])
         def holidayTitle = 'Выходной'
         def notDefineTitle = 'Не указано'
         then:
-        new DTOWorkTime(1, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[0]
-        new DTOWorkTime(1, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(2, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[1]
-        new DTOWorkTime(2, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(3, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[2]
-        new DTOWorkTime(3, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(4, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[3]
-        new DTOWorkTime(4, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(5, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[4]
-        new DTOWorkTime(5, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(6, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[5]
-        new DTOWorkTime(6, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(7, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[6]
-        new DTOWorkTime(7, '10:00', '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == '10:00 - 11:00'
-        new DTOWorkTime(7, '10:00', '11:00', true).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[6]
-        new DTOWorkTime(7, '10:00', '11:00', true).getTitle(dofTitles, holidayTitle, notDefineTitle).value == 'Выходной'
-        new DTOWorkTime(7, null, '11:00', true).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[6]
-        new DTOWorkTime(7, null, '11:00', true).getTitle(dofTitles, holidayTitle, notDefineTitle).value == 'Выходной'
-        new DTOWorkTime(7, '10:00', null, true).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[6]
-        new DTOWorkTime(7, '10:00', null, true).getTitle(dofTitles, holidayTitle, notDefineTitle).value == 'Выходной'
-        new DTOWorkTime(7, null, '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[6]
-        new DTOWorkTime(7, null, '11:00', false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == 'Не указано'
-        new DTOWorkTime(7, '10:00', null, false).getTitle(dofTitles, holidayTitle, notDefineTitle).key == dofTitles[6]
-        new DTOWorkTime(7, '10:00', null, false).getTitle(dofTitles, holidayTitle, notDefineTitle).value == 'Не указано'
+        new DTOWorkTime(dayOfWeeks[0], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[0].name
+        new DTOWorkTime(dayOfWeeks[0], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[1], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[1].name
+        new DTOWorkTime(dayOfWeeks[1], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[2], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[2].name
+        new DTOWorkTime(dayOfWeeks[2], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[3], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[3].name
+        new DTOWorkTime(dayOfWeeks[3], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[4], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[4].name
+        new DTOWorkTime(dayOfWeeks[4], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[5], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[5].name
+        new DTOWorkTime(dayOfWeeks[5], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[6], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[6].name
+        new DTOWorkTime(dayOfWeeks[6], '10:00', '11:00', false).getTitle(holidayTitle, notDefineTitle).value == '10:00 - 11:00'
+        new DTOWorkTime(dayOfWeeks[6], '10:00', '11:00', true).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[6].name
+        new DTOWorkTime(dayOfWeeks[6], '10:00', '11:00', true).getTitle(holidayTitle, notDefineTitle).value == 'Выходной'
+        new DTOWorkTime(dayOfWeeks[6], null, '11:00', true).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[6].name
+        new DTOWorkTime(dayOfWeeks[6], null, '11:00', true).getTitle(holidayTitle, notDefineTitle).value == 'Выходной'
+        new DTOWorkTime(dayOfWeeks[6], '10:00', null, true).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[6].name
+        new DTOWorkTime(dayOfWeeks[6], '10:00', null, true).getTitle(holidayTitle, notDefineTitle).value == 'Выходной'
+        new DTOWorkTime(dayOfWeeks[6], null, '11:00', false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[6].name
+        new DTOWorkTime(dayOfWeeks[6], null, '11:00', false).getTitle(holidayTitle, notDefineTitle).value == 'Не указано'
+        new DTOWorkTime(dayOfWeeks[6], '10:00', null, false).getTitle(holidayTitle, notDefineTitle).key == dayOfWeeks[6].name
+        new DTOWorkTime(dayOfWeeks[6], '10:00', null, false).getTitle(holidayTitle, notDefineTitle).value == 'Не указано'
     }
 }
