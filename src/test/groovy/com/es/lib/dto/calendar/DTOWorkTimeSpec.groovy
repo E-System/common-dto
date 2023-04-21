@@ -3,21 +3,11 @@ package com.es.lib.dto.calendar
 import com.es.lib.dto.reference.DTOReference
 import spock.lang.Specification
 
-import java.time.DayOfWeek
-
 class DTOWorkTimeSpec extends Specification {
 
     def 'GetTitle'() {
         when:
-        def dayOfWeeks = DTOReference.create([
-                new AbstractMap.SimpleEntry(DayOfWeek.MONDAY, "Понедельник"),
-                new AbstractMap.SimpleEntry(DayOfWeek.TUESDAY, "Вторник"),
-                new AbstractMap.SimpleEntry(DayOfWeek.WEDNESDAY, "Среда"),
-                new AbstractMap.SimpleEntry(DayOfWeek.THURSDAY, "Четверг"),
-                new AbstractMap.SimpleEntry(DayOfWeek.FRIDAY, "Пятница"),
-                new AbstractMap.SimpleEntry(DayOfWeek.SATURDAY, "Суббота"),
-                new AbstractMap.SimpleEntry(DayOfWeek.SUNDAY, "Воскресенье")
-        ])
+        def dayOfWeeks = DTOReference.defaultDayOfWeeks
         def holidayTitle = 'Выходной'
         def notDefineTitle = 'Не указано'
         then:
