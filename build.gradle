@@ -33,7 +33,7 @@ plugins {
     id "com.github.ben-manes.versions" version "0.44.0"
 }
 wrapper {
-    gradleVersion = '8.0.2'
+    gradleVersion = '8.1.1'
 }
 
 apply from: "build-${profile}.gradle"
@@ -44,7 +44,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_17
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 group = ext.mainGroup
@@ -57,8 +57,8 @@ repositories {
 
 idea {
     project {
-        jdkName = '1.8'
-        languageLevel = JavaVersion.VERSION_1_8
+        jdkName = '17.0'
+        languageLevel = JavaVersion.VERSION_17
     }
     module {
         downloadJavadoc = false
@@ -70,7 +70,7 @@ idea {
 }
 
 def propName = rootProject.name
-def fullPath = '/com/es/lib/dto'
+def fullPath = '/com/eslibs/dto'
 if (!fullPath.startsWith('/src/main/resources')) {
     fullPath = '/src/main/resources' + fullPath
 }
@@ -101,6 +101,10 @@ javadoc {
     options.encoding = 'utf-8'
 }
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
     withSourcesJar()
     withJavadocJar()
 }
@@ -117,7 +121,7 @@ ext {
 }
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
-    implementation "io.swagger.core.v3:swagger-annotations:2.2.8"
+    implementation "io.swagger.core.v3:swagger-annotations:2.2.9"
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

@@ -13,16 +13,23 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-plugins {
-    id "org.gradle.toolchains.foojay-resolver" version "0.4.0"
-}
-toolchainManagement {
-    jvm {
-        javaRepositories {
-            repository("foojay") {
-                resolverClass = org.gradle.toolchains.foojay.FoojayToolchainResolver
-            }
-        }
+
+package com.eslibs.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.NoArgsConstructor;
+
+/**
+ * Response with only data
+ *
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
+ * @since 10.04.15
+ */
+@NoArgsConstructor
+@Schema(description = "Response with data")
+public class DTOResponse<T> extends DTOEnvironmentalResponse<T, Object> {
+
+    public DTOResponse(T data) {
+        super(data);
     }
 }
-rootProject.name = 'common-dto'

@@ -13,16 +13,24 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-plugins {
-    id "org.gradle.toolchains.foojay-resolver" version "0.4.0"
-}
-toolchainManagement {
-    jvm {
-        javaRepositories {
-            repository("foojay") {
-                resolverClass = org.gradle.toolchains.foojay.FoojayToolchainResolver
-            }
-        }
+
+package com.eslibs.dto.validation
+
+import spock.lang.Specification
+
+/**
+ * @author Dmitriy Zuzoev <zuzoev.d@ext-system.com>
+ * @since 10.04.15
+ */
+class DTOValidationFieldSpec extends Specification {
+
+    def "Constructing"() {
+        when:
+        def name = "name"
+        def msg = "msg"
+        def vf = new DTOValidationField(name, msg)
+        then:
+        vf.name == name
+        vf.msg == msg
     }
 }
-rootProject.name = 'common-dto'
