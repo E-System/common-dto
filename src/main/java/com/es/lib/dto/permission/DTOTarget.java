@@ -22,4 +22,6 @@ public class DTOTarget implements Serializable {
     private String name;
     @Schema(description = "Item actions")
     private Collection<DTOAction> items;
+    @Schema(description = "Domain")
+    private String domain;
 }
