@@ -23,4 +23,8 @@ public class DTOAction implements Serializable {
     private boolean enabled;
     @Schema(description = "Domain")
     private String domain;
+
+    public DTOAction(String code, String name, boolean enabled) {
+        this(code, name, enabled, null);
+    }
 }
