@@ -1,8 +1,6 @@
 package com.es.lib.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -99,17 +97,97 @@ public class Patcher<T, R> {
     @Getter
     @EqualsAndHashCode
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class UpdatedField {
+    @JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        defaultImpl = UpdatedField.class,
+        visible = true,
+        property = "type")
+    @JsonSubTypes({
+        @JsonSubTypes.Type(value = UpdatedField.class, name = "FIELD"),
+        @JsonSubTypes.Type(value = UpdatedRow.class, name = "ROW"),
+        @JsonSubTypes.Type(value = UpdatedGroup.class, name = "GROUP"),
+    })
+    public static class Updated {
 
+        private final Type type;
         private final String field;
+
+        public Updated(Type type, String field) {
+            this.type = type != null ? type : Type.FIELD;
+            this.field = field;
+        }
+
+        public enum Type {
+            GROUP,
+            ROW,
+            FIELD
+        }
+    }
+
+    @ToString
+    @Getter
+    @EqualsAndHashCode(callSuper = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class UpdatedField extends Updated {
+
         private final String was;
         private final String became;
 
+        public UpdatedField(String field, String was, String became) {
+            this(Type.FIELD, field, was, became);
+        }
+
         @JsonCreator
-        public UpdatedField(@JsonProperty("field") String field, @JsonProperty("was") String was, @JsonProperty("became") String became) {
-            this.field = field;
+        public UpdatedField(@JsonProperty("type") Type type, @JsonProperty("field") String field, @JsonProperty("was") String was, @JsonProperty("became") String became) {
+            super(type, field);
             this.was = was;
             this.became = became;
+        }
+    }
+
+    @ToString
+    @Getter
+    @EqualsAndHashCode(callSuper = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class UpdatedGroup extends Updated {
+
+        private final Collection<Updated> items;
+
+        public UpdatedGroup(String field, Collection<Updated> items) {
+            this(Type.GROUP, field, items);
+        }
+
+        @JsonCreator
+        public UpdatedGroup(@JsonProperty("type") Type type, @JsonProperty("field") String field, @JsonProperty("rows") Collection<Updated> items) {
+            super(type, field);
+            this.items = items;
+        }
+    }
+
+    @ToString
+    @Getter
+    @EqualsAndHashCode(callSuper = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class UpdatedRow extends UpdatedGroup {
+
+        private final Event event;
+
+        public UpdatedRow(String field, Event event, Collection<Updated> items) {
+            this(Type.ROW, field, event, items);
+        }
+
+        @JsonCreator
+        public UpdatedRow(@JsonProperty("type") Type type, @JsonProperty("field") String field, @JsonProperty("event") Event event, @JsonProperty("items") Collection<Updated> items) {
+            super(type, field, items);
+            this.event = event;
+        }
+
+
+        public enum Event {
+            INSERT,
+            UPDATE,
+            DELETE
         }
     }
 
