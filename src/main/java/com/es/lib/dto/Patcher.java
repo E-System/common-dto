@@ -44,7 +44,7 @@ public class Patcher<T, R> {
         return rule(field, checkChange, null);
     }
 
-    public Patcher<T, R> rule(String field, boolean checkChange, Consumer<UpdatedField> updatedFieldConsumer) {
+    public Patcher<T, R> rule(String field, boolean checkChange, Consumer<Updated> updatedFieldConsumer) {
         if (checkChange) {
             return rule(new Rule<>(this, field, null, updatedFieldConsumer));
         } else {
@@ -72,7 +72,7 @@ public class Patcher<T, R> {
         return rule(field, fromGetter, toSetter, converter, callbackGetter, callbackConverter, null);
     }
 
-    public <R1, R2> Patcher<T, R> rule(String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter, Consumer<UpdatedField> updatedFieldConsumer) {
+    public <R1, R2> Patcher<T, R> rule(String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter, Consumer<Updated> updatedFieldConsumer) {
         return rule(new Rule<>(this, field, fromGetter, toSetter, converter, callbackGetter, callbackConverter, updatedFieldConsumer));
     }
 
@@ -81,12 +81,12 @@ public class Patcher<T, R> {
         return this;
     }
 
-    public Collection<UpdatedField> apply() {
+    public Collection<Updated> apply() {
         return apply(null);
     }
 
-    public Collection<UpdatedField> apply(Map<String, String> labels) {
-        Collection<UpdatedField> result = new ArrayList<>();
+    public Collection<Updated> apply(Map<String, String> labels) {
+        Collection<Updated> result = new ArrayList<>();
         for (Rule<T, R, ?, ?> rule : rules) {
             rule.invoke(fields, result, labels);
         }
@@ -173,6 +173,10 @@ public class Patcher<T, R> {
 
         private final Event event;
 
+        public UpdatedRow(String field, Event event) {
+            this(field, event, null);
+        }
+
         public UpdatedRow(String field, Event event, Collection<Updated> items) {
             this(Type.ROW, field, event, items);
         }
@@ -206,7 +210,7 @@ public class Patcher<T, R> {
 
         private final Function<R, R2> callbackGetter;
         private final Function<R2, String> callbackConverter;
-        private final Consumer<UpdatedField> updatedFieldCallback;
+        private final Consumer<Updated> updatedFieldCallback;
 
         public Rule(Patcher<T, R> owner, String field, Runnable runnable) {
             this(owner, field, runnable, null, null, null, null, null, null, null);
@@ -216,7 +220,7 @@ public class Patcher<T, R> {
             this(owner, field, callbackConverter, null);
         }
 
-        public Rule(Patcher<T, R> owner, String field, Function<R2, String> callbackConverter, Consumer<UpdatedField> updatedFieldConsumer) {
+        public Rule(Patcher<T, R> owner, String field, Function<R2, String> callbackConverter, Consumer<Updated> updatedFieldConsumer) {
             this(owner, field, null, null, null, null, null, null, callbackConverter, updatedFieldConsumer);
         }
 
@@ -224,11 +228,11 @@ public class Patcher<T, R> {
             this(owner, field, null, consumer, null, null, null, null, null, null);
         }
 
-        public Rule(Patcher<T, R> owner, String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter, Consumer<UpdatedField> updatedFieldConsumer) {
+        public Rule(Patcher<T, R> owner, String field, Function<T, R1> fromGetter, BiConsumer<R, R2> toSetter, Function<R1, R2> converter, Function<R, R2> callbackGetter, Function<R2, String> callbackConverter, Consumer<Updated> updatedFieldConsumer) {
             this(owner, field, null, null, fromGetter, toSetter, converter, callbackGetter, callbackConverter, updatedFieldConsumer);
         }
 
-        void invoke(Set<String> fields, Collection<UpdatedField> updatedFields, Map<String, String> labels) {
+        void invoke(Set<String> fields, Collection<Updated> updatedFields, Map<String, String> labels) {
             if (fields == null || fields.contains(field)) {
                 if (runnable != null) {
                     runnable.run();
