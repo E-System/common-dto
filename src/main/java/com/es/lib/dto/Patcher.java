@@ -104,9 +104,9 @@ public class Patcher<T, R> {
         visible = true,
         property = "type")
     @JsonSubTypes({
-        @JsonSubTypes.Type(value = UpdatedField.class, name = "FIELD"),
-        @JsonSubTypes.Type(value = UpdatedRow.class, name = "ROW"),
-        @JsonSubTypes.Type(value = UpdatedGroup.class, name = "GROUP"),
+        @JsonSubTypes.Type(value = UpdatedField.class, name = "F"),
+        @JsonSubTypes.Type(value = UpdatedRow.class, name = "R"),
+        @JsonSubTypes.Type(value = UpdatedGroup.class, name = "G"),
     })
     public static class Updated {
 
@@ -118,10 +118,14 @@ public class Patcher<T, R> {
             this.field = field;
         }
 
+        @Getter
+        @RequiredArgsConstructor
         public enum Type {
-            GROUP,
-            ROW,
-            FIELD
+            GROUP("G"),
+            ROW("R"),
+            FIELD("F");
+            @JsonValue
+            private final String value;
         }
     }
 
@@ -188,10 +192,14 @@ public class Patcher<T, R> {
         }
 
 
+        @Getter
+        @RequiredArgsConstructor
         public enum Event {
-            INSERT,
-            UPDATE,
-            DELETE
+            INSERT("I"),
+            UPDATE("U"),
+            DELETE("D");
+            @JsonValue
+            private final String value;
         }
     }
 
