@@ -15,7 +15,9 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class Patcher<T, R> {
 
+    @Getter
     private final T from;
+    @Getter
     private final R to;
     private final Set<String> fields;
     private final Collection<Rule<T, R, ?, ?>> rules = new ArrayList<>();
