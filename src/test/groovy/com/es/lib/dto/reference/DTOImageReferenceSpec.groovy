@@ -3,7 +3,9 @@ package com.es.lib.dto.reference
 import spock.lang.Specification
 
 class DTOImageReferenceSpec extends Specification {
+
     enum TestEnum {
+
         VALUE1,
         VALUE2
     }
@@ -80,17 +82,38 @@ class DTOImageReferenceSpec extends Specification {
         res.image.ext == ext
     }
 
-    def "Create with empty prefix ang ext and description evaluator"() {
+    def "Create with empty prefix ang ext and evaluator (only description)"() {
         when:
         def prefix = null
         def ext = 'jpg'
         def res = DTOImageReference.create(TestEnum.VALUE1, 'VAL1', prefix, ext, {
-            return it.key.name() + it.value
+            return new DTOImageReference.Data(it.key.name() + it.value, null)
         })
         then:
         res.id == TestEnum.VALUE1.name()
         res.name == 'VAL1'
         res.description == TestEnum.VALUE1.name() + 'VAL1'
+        res.attrs == null
+        res.image.id == TestEnum.VALUE1.name() + '.' + ext
+        res.image.name == TestEnum.VALUE1.name()
+        res.image.ext == ext
+    }
+
+    def "Create with empty prefix ang ext and evaluator (description and attrs)"() {
+        when:
+        def prefix = null
+        def ext = 'jpg'
+        def res = DTOImageReference.create(TestEnum.VALUE1, 'VAL1', prefix, ext, {
+            return new DTOImageReference.Data(
+                    it.key.name() + it.value,
+                    ['ATTR': it.key.name() + it.value]
+            )
+        })
+        then:
+        res.id == TestEnum.VALUE1.name()
+        res.name == 'VAL1'
+        res.description == TestEnum.VALUE1.name() + 'VAL1'
+        res.attrs['ATTR'] == TestEnum.VALUE1.name() + 'VAL1'
         res.image.id == TestEnum.VALUE1.name() + '.' + ext
         res.image.name == TestEnum.VALUE1.name()
         res.image.ext == ext
