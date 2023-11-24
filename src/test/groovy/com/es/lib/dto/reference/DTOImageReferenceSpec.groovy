@@ -87,7 +87,7 @@ class DTOImageReferenceSpec extends Specification {
         def prefix = null
         def ext = 'jpg'
         def res = DTOImageReference.create(TestEnum.VALUE1, 'VAL1', prefix, ext, {
-            return new DTOImageReference.Data(it.key.name() + it.value, null)
+            return new DTOImageReference.EvaluatorResult(it.key.name() + it.value, null)
         })
         then:
         res.id == TestEnum.VALUE1.name()
@@ -104,7 +104,7 @@ class DTOImageReferenceSpec extends Specification {
         def prefix = null
         def ext = 'jpg'
         def res = DTOImageReference.create(TestEnum.VALUE1, 'VAL1', prefix, ext, {
-            return new DTOImageReference.Data(
+            return new DTOImageReference.EvaluatorResult(
                     it.key.name() + it.value,
                     ['ATTR': it.key.name() + it.value]
             )
