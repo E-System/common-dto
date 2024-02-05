@@ -38,7 +38,11 @@ public class DTOReference implements Serializable {
     }
 
     public static <T extends Enum<T>> DTOReference create(T value, String name) {
-        return create(value, name, null);
+        return create(value, name, (Function<Map.Entry<T, String>, EvaluatorResult>) null);
+    }
+
+    public static <T extends Enum<T>> DTOReference create(T value, String name, String description) {
+        return create(value, name, v -> new EvaluatorResult(description, null));
     }
 
     public static <T extends Enum<T>> DTOReference create(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
