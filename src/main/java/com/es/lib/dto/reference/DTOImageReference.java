@@ -3,7 +3,9 @@ package com.es.lib.dto.reference;
 import com.es.lib.dto.DTOFileStore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -30,10 +32,10 @@ public class DTOImageReference {
     private Map<String, Object> attrs;
 
     public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items) {
-        return create(items, (Function<Map.Entry<T, String>, EvaluatorResult>) null);
+        return create(items, (Function<Map.Entry<T, String>, DTOReference.EvaluatorResult>) null);
     }
 
-    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, DTOReference.EvaluatorResult> evaluator) {
         return create(items, null, evaluator);
     }
 
@@ -41,7 +43,7 @@ public class DTOImageReference {
         return create(items, imagePrefix, null, null);
     }
 
-    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, Function<Map.Entry<T, String>, DTOReference.EvaluatorResult> evaluator) {
         return create(items, imagePrefix, null, evaluator);
     }
 
@@ -49,7 +51,7 @@ public class DTOImageReference {
         return create(items, imagePrefix, ext, null);
     }
 
-    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, String ext, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> Collection<DTOImageReference> create(Collection<Map.Entry<T, String>> items, String imagePrefix, String ext, Function<Map.Entry<T, String>, DTOReference.EvaluatorResult> evaluator) {
         return items.stream().map(v -> create(v.getKey(), v.getValue(), imagePrefix, ext, evaluator)).collect(Collectors.toList());
     }
 
@@ -57,7 +59,7 @@ public class DTOImageReference {
         return create(value, name, null, null, null);
     }
 
-    public static <T extends Enum<T>> DTOImageReference create(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, Function<Map.Entry<T, String>, DTOReference.EvaluatorResult> evaluator) {
         return create(value, name, null, null, evaluator);
     }
 
@@ -65,7 +67,7 @@ public class DTOImageReference {
         return create(value, name, imagePrefix, null, null);
     }
 
-    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String imagePrefix, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String imagePrefix, Function<Map.Entry<T, String>, DTOReference.EvaluatorResult> evaluator) {
         return create(value, name, imagePrefix, null, evaluator);
     }
 
@@ -73,12 +75,12 @@ public class DTOImageReference {
         return create(value, name, pathPrefix, ext, null);
     }
 
-    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String pathPrefix, String ext, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> DTOImageReference create(T value, String name, String pathPrefix, String ext, Function<Map.Entry<T, String>, DTOReference.EvaluatorResult> evaluator) {
         if (ext == null || ext.isEmpty()) {
             ext = "png";
         }
         String path = ((pathPrefix != null && !pathPrefix.isEmpty()) ? (pathPrefix + "/") : "") + value.name() + "." + ext;
-        EvaluatorResult evaluatedData = evaluator != null ? evaluator.apply(new AbstractMap.SimpleEntry<>(value, name)) : new EvaluatorResult();
+        DTOReference.EvaluatorResult evaluatedData = evaluator != null ? evaluator.apply(new AbstractMap.SimpleEntry<>(value, name)) : new DTOReference.EvaluatorResult();
         return new DTOImageReference(
             value.name(),
             name,
@@ -92,18 +94,5 @@ public class DTOImageReference {
             ),
             evaluatedData.getAttrs()
         );
-    }
-
-    @Getter
-    @ToString
-    @RequiredArgsConstructor
-    public static class EvaluatorResult {
-
-        private final String description;
-        private final Map<String, Object> attrs;
-
-        public EvaluatorResult() {
-            this(null, null);
-        }
     }
 }

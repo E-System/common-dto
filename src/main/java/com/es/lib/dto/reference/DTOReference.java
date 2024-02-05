@@ -2,9 +2,7 @@ package com.es.lib.dto.reference;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
@@ -12,6 +10,7 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Data
@@ -27,17 +26,37 @@ public class DTOReference implements Serializable {
     private String name;
     @Schema(description = "Description")
     private String description;
+    @Schema(description = "Attributes")
+    private Map<String, Object> attrs;
 
-    public static Collection<DTOReference> create(Collection<Map.Entry<Enum<?>, String>> items) {
-        return items.stream().map(v -> create(v.getKey(), v.getValue())).collect(Collectors.toList());
+    public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items) {
+        return create(items, null);
     }
 
-    public static DTOReference create(Enum<?> item, String name) {
-        return create(item, name, null);
+    public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+        return items.stream().map(v -> create(v.getKey(), v.getValue(), evaluator)).collect(Collectors.toList());
     }
 
-    public static DTOReference create(Enum<?> item, String name, String description) {
-        return new DTOReference(item.name(), name, description);
+    public static <T extends Enum<T>> DTOReference create(T value, String name) {
+        return create(value, name, null);
+    }
+
+    public static <T extends Enum<T>> DTOReference create(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+        EvaluatorResult evaluatedData = evaluator != null ? evaluator.apply(new AbstractMap.SimpleEntry<>(value, name)) : new EvaluatorResult();
+        return new DTOReference(value.name(), name, evaluatedData.getDescription(), evaluatedData.getAttrs());
+    }
+
+    @Getter
+    @ToString
+    @RequiredArgsConstructor
+    public static class EvaluatorResult {
+
+        private final String description;
+        private final Map<String, Object> attrs;
+
+        public EvaluatorResult() {
+            this(null, null);
+        }
     }
 
     public static Collection<DTOReference> getDefaultDayOfWeeks() {
@@ -51,4 +70,6 @@ public class DTOReference implements Serializable {
             new AbstractMap.SimpleEntry<>(DayOfWeek.SUNDAY, "Воскресенье")
         ));
     }
+
+
 }
