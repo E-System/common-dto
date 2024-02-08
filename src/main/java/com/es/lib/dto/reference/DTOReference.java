@@ -6,10 +6,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,6 +65,21 @@ public class DTOReference implements Serializable {
 
         public EvaluatorResult() {
             this(null, null);
+        }
+
+        public EvaluatorResult(String description) {
+            this(description, null);
+        }
+
+        public EvaluatorResult(Map<String, Object> attrs) {
+            this(null, attrs);
+        }
+
+        public EvaluatorResult(Collection<Map.Entry<String, Object>> attrs) {
+            this(null, attrs != null ? attrs.stream().filter(v -> Objects.nonNull(v.getKey()) && Objects.nonNull(v.getValue())).collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue
+            )) : null);
         }
     }
 
