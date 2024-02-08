@@ -29,6 +29,14 @@ public class DTOReference implements Serializable {
     @Schema(description = "Attributes")
     private Map<String, Object> attrs;
 
+    public DTOReference(String id, String name) {
+        this(id, name, null);
+    }
+
+    public DTOReference(String id, String name, String description) {
+        this(id, name, description, null);
+    }
+
     public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items) {
         return create(items, null);
     }
