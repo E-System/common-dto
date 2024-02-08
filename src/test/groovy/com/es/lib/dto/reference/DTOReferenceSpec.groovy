@@ -36,7 +36,7 @@ class DTOReferenceSpec extends Specification {
     def "Create with evaluator (only description)"() {
         when:
         def res = DTOReference.create(TestEnum.VALUE1, 'VAL1', {
-            return new DTOReference.EvaluatorResult(it.key.name() + it.value, null)
+            return new DTOReference.EvaluatorResult(it.key.name() + it.value)
         })
         then:
         res.id == TestEnum.VALUE1.name()
