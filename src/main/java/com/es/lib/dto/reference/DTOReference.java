@@ -47,7 +47,7 @@ public class DTOReference implements Serializable {
     }
 
     public static <T extends Enum<T>> DTOReference create(T value, String name, String description) {
-        return create(value, name, v -> new EvaluatorResult(description, null));
+        return create(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
     }
 
     public static <T extends Enum<T>> DTOReference create(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
@@ -64,15 +64,22 @@ public class DTOReference implements Serializable {
         private final Map<String, Object> attrs;
 
         public EvaluatorResult() {
-            this(null, null);
+            this(null, (Map<String, Object>) null);
         }
 
         public EvaluatorResult(String description) {
-            this(description, null);
+            this(description, (Map<String, Object>) null);
         }
 
         public EvaluatorResult(Map<String, Object> attrs) {
             this(null, attrs);
+        }
+
+        public EvaluatorResult(String description, Collection<Map.Entry<String, Object>> attrs) {
+            this(description, attrs != null ? attrs.stream().filter(v -> Objects.nonNull(v.getKey()) && Objects.nonNull(v.getValue())).collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue
+            )) : null);
         }
 
         public EvaluatorResult(Collection<Map.Entry<String, Object>> attrs) {
