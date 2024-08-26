@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Schema(description = "Interval")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTORange<T> implements Serializable {
+
     @Schema(description = "From")
     private T from;
     @Schema(description = "To")
