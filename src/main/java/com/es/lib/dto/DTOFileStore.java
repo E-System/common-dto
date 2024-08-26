@@ -37,17 +37,19 @@ public class DTOFileStore implements Serializable {
     private Map<String, String> extIds;
     @Schema(description = "External url")
     private String url;
+    @Schema(description = "Attrs")
+    private Map<String, String> attrs;
 
     public DTOFileStore(String id, String name, String ext, String mime, long size) {
-        this(id, name, ext, mime, size, null, null);
+        this(id, name, ext, mime, size, null, null, null);
     }
 
     public DTOFileStore(String id, String name, String ext, String mime, long size, Map<String, String> extIds) {
-        this(id, name, ext, mime, size, extIds, null);
+        this(id, name, ext, mime, size, extIds, null, null);
     }
 
     public DTOFileStore(String id, String url) {
-        this(id, null, null, null, 0, null, url);
+        this(id, null, null, null, 0, null, url, null);
     }
 
     @JsonIgnore
