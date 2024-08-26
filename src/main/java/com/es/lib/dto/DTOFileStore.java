@@ -49,7 +49,11 @@ public class DTOFileStore implements Serializable {
     }
 
     public DTOFileStore(String id, String url) {
-        this(id, null, null, null, 0, null, url, null);
+        this(id, null, null, null, 0, null, url);
+    }
+
+    public DTOFileStore(String id, String name, String ext, String mime, long size, Map<String, String> extIds, String url) {
+        this(id, name, ext, mime, size, extIds, url, null);
     }
 
     @JsonIgnore
