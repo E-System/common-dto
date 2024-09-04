@@ -17,4 +17,16 @@ public class DTOGeoPoint {
     private double lat;
     @Schema(description = "Longitude")
     private double lon;
+
+    public static DTOGeoPoint from(String lat, String lon) {
+        if (lat == null || lat.trim().isEmpty() || lon == null || lon.trim().isEmpty()) {
+            return null;
+        }
+        lat = lat.trim();
+        lon = lon.trim();
+        return new DTOGeoPoint(
+            Double.parseDouble(lat),
+            Double.parseDouble(lon)
+        );
+    }
 }
