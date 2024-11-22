@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 @Schema(description = "Custom payload")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPayload implements Serializable {
+
+    public static final String VALUE = "VALUE";
+    public static final String INTERNAL = "INTERNAL";
 
     @Schema(description = "Type")
     private Type type;
@@ -39,4 +43,31 @@ public class DTOPayload implements Serializable {
         @Schema(description = "Link")
         LINK
     }
+
+
+    public static DTOPayload link(String name, String url) {
+        return link(name, url, false);
+    }
+
+    public static DTOPayload link(String name, String url, boolean internal) {
+        if (url == null || url.isEmpty()) {
+            return null;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put(VALUE, url);
+        if (internal) {
+            params.put(INTERNAL, String.valueOf(true));
+        }
+        return new DTOPayload(DTOPayload.Type.LINK, name, params);
+    }
+
+    public static DTOPayload screen(String name, String screen) {
+        if (screen == null || screen.isEmpty()) {
+            return null;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put(VALUE, screen);
+        return new DTOPayload(Type.SCREEN, name, params);
+    }
+
 }
