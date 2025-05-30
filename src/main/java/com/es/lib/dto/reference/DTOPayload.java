@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOPayload implements Serializable {
 
+    public static final String ID = "ID";
     public static final String VALUE = "VALUE";
     public static final String INTERNAL = "INTERNAL";
 
@@ -62,11 +63,18 @@ public class DTOPayload implements Serializable {
     }
 
     public static DTOPayload screen(String name, String screen) {
+        return screen(name, screen, null);
+    }
+
+    public static DTOPayload screen(String name, String screen, Object id) {
         if (screen == null || screen.isEmpty()) {
             return null;
         }
         Map<String, String> params = new HashMap<>();
         params.put(VALUE, screen);
+        if (id != null) {
+            params.put(ID, id.toString());
+        }
         return new DTOPayload(Type.SCREEN, name, params);
     }
 
