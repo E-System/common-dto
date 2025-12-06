@@ -19,7 +19,6 @@ import org.jsondoc.core.annotation.ApiObjectField;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOGeoPoint {
 
-
     @ApiObjectField(description = "Latitude", order = 0)
     @ApiModelProperty(notes = "Latitude", position = 0)
     private double lat;
