@@ -10,10 +10,8 @@ import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Data
@@ -51,7 +49,10 @@ public class DTOPayload implements Serializable {
         SCREEN,
         @ApiObjectField(description = "Link", order = 1)
         @ApiModelProperty(notes = "Link", position = 1)
-        LINK
+        LINK,
+        @ApiObjectField(description = "Action on same screen", order = 2)
+        @ApiModelProperty(notes = "Action on same screen", position = 2)
+        ACTION
     }
 
 
@@ -60,15 +61,14 @@ public class DTOPayload implements Serializable {
     }
 
     public static DTOPayload link(String name, String url, boolean internal) {
-        if (url == null || url.isEmpty()) {
-            return null;
-        }
-        Map<String, String> params = new HashMap<>();
-        params.put(VALUE, url);
-        if (internal) {
-            params.put(INTERNAL, String.valueOf(true));
-        }
-        return new DTOPayload(DTOPayload.Type.LINK, name, params);
+        return create(Type.LINK, name, url, () -> {
+            if (internal) {
+                return Collections.singletonList(
+                    new AbstractMap.SimpleEntry<>(INTERNAL, String.valueOf(true))
+                );
+            }
+            return Collections.emptyList();
+        });
     }
 
     public static DTOPayload screen(String name, String screen) {
@@ -76,15 +76,41 @@ public class DTOPayload implements Serializable {
     }
 
     public static DTOPayload screen(String name, String screen, Object id) {
-        if (screen == null || screen.isEmpty()) {
+        return create(Type.SCREEN, name, screen, () -> {
+            if (id != null) {
+                return Collections.singletonList(
+                    new AbstractMap.SimpleEntry<>(ID, id.toString())
+                );
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    public static DTOPayload action(String name, String action) {
+        return action(name, action, null);
+    }
+
+    public static DTOPayload action(String name, String action, Object id) {
+        return create(Type.ACTION, name, action, () -> {
+            if (id != null) {
+                return Collections.singletonList(
+                    new AbstractMap.SimpleEntry<>(ID, id.toString())
+                );
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    public static DTOPayload create(Type type, String name, String value, Supplier<Collection<Map.Entry<String, String>>> paramSupplier) {
+        if (value == null || value.isEmpty()) {
             return null;
         }
         Map<String, String> params = new HashMap<>();
-        params.put(VALUE, screen);
-        if (id != null) {
-            params.put(ID, id.toString());
+        params.put(VALUE, value);
+        if (paramSupplier != null) {
+            paramSupplier.get().forEach(entry -> params.put(entry.getKey(), entry.getValue()));
         }
-        return new DTOPayload(Type.SCREEN, name, params);
+        return new DTOPayload(type, name, params);
     }
 
 }
