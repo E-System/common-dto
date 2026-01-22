@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiObject(name = "FIO", description = "FIO")
-@ApiModel(description = "Custom payload")
+@ApiModel(description = "FIO")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOFullName implements Serializable {
 
