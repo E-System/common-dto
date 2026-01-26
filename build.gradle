@@ -140,6 +140,9 @@ ext {
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
     implementation "io.swagger.core.v3:swagger-annotations:2.2.9"
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
+    compileOnly "org.jsondoc:jsondoc-core:1.2.19"
+    compileOnly "io.swagger:swagger-annotations:1.5.22"
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -151,6 +154,13 @@ dependencies {
     testImplementation "org.objenesis:objenesis:2.2"
     testCompileOnly "org.projectlombok:lombok:1.18.10"
     testAnnotationProcessor "org.projectlombok:lombok:1.18.10"
+    compileOnly "org.projectlombok:lombok:1.18.42"
+    annotationProcessor "org.projectlombok:lombok:1.18.42"
+
+    testImplementation "org.spockframework:spock-core:2.3-groovy-2.5"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    testCompileOnly "org.projectlombok:lombok:1.18.42"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.42"
 }
 
 test {
