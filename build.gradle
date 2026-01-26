@@ -39,6 +39,7 @@ wrapper {
 def resolve(String name) {
     return (System.getenv(name) ?: properties[name]).toString()
 }
+println(System.getenv())
 
 apply from: "build-${resolve('profile')}.gradle"
 apply plugin: 'idea'
