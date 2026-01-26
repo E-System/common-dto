@@ -36,8 +36,8 @@ wrapper {
     gradleVersion = '8.0.2'
 }
 
-String resolve(String name) {
-    return System.getenv(name) ?: properties[name]
+static resolve(String name) {
+    return (System.getenv(name) ?: properties[name]).toString()
 }
 
 apply from: "build-${resolve('profile')}.gradle"
