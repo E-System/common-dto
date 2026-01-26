@@ -41,7 +41,7 @@ def resolve(String name) {
     println("${name} -> ${res}")
     return res
 }
-
+resolve('repos_url')
 apply from: "build-${resolve('profile')}.gradle"
 apply plugin: 'java'
 apply plugin: 'java-library'
