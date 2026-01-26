@@ -35,7 +35,7 @@ wrapper {
 }
 
 String resolve(String name) {
-    return (System.getenv()[name] ?: properties[name]) as String
+    return System.getenv(name) ?: properties[name]
 }
 
 apply from: "build-${resolve('profile')}.gradle"
