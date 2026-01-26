@@ -39,7 +39,7 @@ def resolve(String name) {
     println("${name} -> ${res}")
     return res
 }
-println(project.properties)
+println(properties)
 println(System.getenv())
 resolve('repos_url')
 apply from: "build-${resolve('profile')}.gradle"
