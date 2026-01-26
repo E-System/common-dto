@@ -30,11 +30,15 @@ buildscript {
     }
 }
 
-wrapper{
+wrapper {
     gradleVersion = '6.8.1'
 }
 
-apply from: "build-${profile}.gradle"
+String resolve(String name) {
+    return (System.getenv()[name] ?: properties[name]) as String
+}
+
+apply from: "build-${resolve('profile')}.gradle"
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'groovy'
@@ -127,11 +131,20 @@ tasks.create(name: 'javadocJar', type: Jar, dependsOn: 'javadoc') {
 tasks.create(name: 'sourceJar', type: Jar) {
     from sourceSets.main.allJava
 }
-java{
+java {
     withSourcesJar()
     withJavadocJar()
 }
 publishing {
+    repositories {
+        maven {
+            url = uri("${resolve("repos_url")}${((snapshot as Boolean) ? "snapshots" : "releases")}")
+            credentials {
+                username = resolve("repos_user")
+                password = resolve("repos_password")
+            }
+        }
+    }
     publications {
         mavenJava(MavenPublication) {
             from components.java
@@ -156,14 +169,14 @@ test {
     finalizedBy jacocoTestReport
 }
 
-def sonarAvailable = properties['sonar_url'] != null && properties['sonar_user'] != null && properties['sonar_password'] != null
+def sonarAvailable = resolve('sonar_url') != null && resolve('sonar_user') != null && resolve('sonar_password') != null
 if (sonarAvailable) {
     apply plugin: 'org.sonarqube'
     sonarqube {
         properties {
-            property "sonar.host.url", "${sonar_url}"
-            property "sonar.login", "${sonar_user}"
-            property "sonar.password", "${sonar_password}"
+            property "sonar.host.url", resolve('sonar_url')
+            property "sonar.login", resolve('sonar_user')
+            property "sonar.password", resolve('sonar_password')
         }
     }
 }
