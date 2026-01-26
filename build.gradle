@@ -34,7 +34,7 @@ wrapper {
     gradleVersion = '6.8.1'
 }
 
-static resolve(String name) {
+def resolve(String name) {
     return (System.getenv(name) ?: properties[name]).toString()
 }
 
