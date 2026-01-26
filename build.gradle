@@ -35,19 +35,14 @@ wrapper {
 }
 
 def resolve(String name) {
-    return (System.getenv(name) ?: project.properties[name]).toString()
+    return (project.findProperty(name) ?: System.getenv(name)).toString()
 }
 
-println(System.getenv())
-println(properties)
-
 apply from: "build-${resolve('profile')}.gradle"
-apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -82,20 +77,6 @@ repositories {
     mavenLocal()
 }
 
-idea {
-    project {
-        jdkName = '1.8'
-        languageLevel = JavaVersion.VERSION_1_8
-    }
-    module {
-        downloadJavadoc = false
-        downloadSources = false
-        inheritOutputDirs = true
-        excludeDirs += file('gradle')
-        excludeDirs += file('out')
-    }
-}
-
 def propName = rootProject.name
 def fullPath = '/com/es/lib/dto'
 if (!fullPath.startsWith('/src/main/resources')) {
@@ -127,13 +108,7 @@ javadoc {
     failOnError = false
     options.encoding = 'utf-8'
 }
-tasks.create(name: 'javadocJar', type: Jar, dependsOn: 'javadoc') {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-tasks.create(name: 'sourceJar', type: Jar) {
-    from sourceSets.main.allJava
-}
+
 java {
     withSourcesJar()
     withJavadocJar()
