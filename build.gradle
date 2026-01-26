@@ -39,6 +39,8 @@ def resolve(String name) {
     println("${name} -> ${res}")
     return res
 }
+println(project.properties)
+println(System.getenv())
 resolve('repos_url')
 apply from: "build-${resolve('profile')}.gradle"
 apply plugin: 'java'
