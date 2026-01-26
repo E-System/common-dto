@@ -40,6 +40,7 @@ def resolve(String name) {
 
 apply from: "build-${resolve('profile')}.gradle"
 apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
@@ -129,15 +130,16 @@ publishing {
     }
 }
 dependencies {
-    compileOnly "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
-    compileOnly "org.jsondoc:jsondoc-core:1.2.19"
-    compileOnly "io.swagger:swagger-annotations:1.5.22"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
+    implementation "org.jsondoc:jsondoc-core:1.2.19"
+    implementation "io.swagger:swagger-annotations:1.5.22"
 
     compileOnly "org.projectlombok:lombok:1.18.42"
     annotationProcessor "org.projectlombok:lombok:1.18.42"
 
-    testImplementation "org.spockframework:spock-core:2.3-groovy-2.5"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    testImplementation "org.spockframework:spock-core:2.3-groovy-4.0"
+
     testCompileOnly "org.projectlombok:lombok:1.18.42"
     testAnnotationProcessor "org.projectlombok:lombok:1.18.42"
 }
