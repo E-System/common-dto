@@ -37,8 +37,9 @@ wrapper {
 }
 
 def resolve(String name) {
-    return (System.getenv(name) ?: properties[name]).toString()
+    return (System.getenv(name) ?: project.properties[name]).toString()
 }
+
 println(System.getenv())
 println(properties)
 
