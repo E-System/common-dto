@@ -37,7 +37,9 @@ wrapper {
 }
 
 def resolve(String name) {
-    return (project.findProperty(name) ?: System.getenv(name)).toString()
+    def res = (project.findProperty(name) ?: System.getenv(name)).toString()
+    println("${name} -> ${res}")
+    return res
 }
 
 apply from: "build-${resolve('profile')}.gradle"
