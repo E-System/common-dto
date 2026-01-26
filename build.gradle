@@ -35,13 +35,9 @@ wrapper {
 }
 
 def resolve(String name) {
-    def res = (project.findProperty(name) ?: System.getenv(name)).toString()
-    println("${name} -> ${res}")
-    return res
+    return (project.findProperty(name) ?: System.getenv(name)).toString()
 }
-println(properties)
-println(System.getenv())
-resolve('repos_url')
+
 apply from: "build-${resolve('profile')}.gradle"
 apply plugin: 'java'
 apply plugin: 'groovy'
