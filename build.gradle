@@ -31,7 +31,7 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '9.3.0'
+    gradleVersion = '9.4.1'
 }
 
 def resolve(String name) {
@@ -45,28 +45,11 @@ apply plugin: 'groovy'
 apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
 
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+[compileJava, compileTestJava, compileTestGroovy, compileGroovy]*.options*.encoding = 'UTF-8'
 if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
-    compileJava {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-        options.release = 8
-    }
-    compileTestJava {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-        options.release = 8
-    }
-    compileTestGroovy {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-        options.release = 8
-    }
-    compileGroovy {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-        options.release = 8
-    }
+    [compileJava, compileTestJava, compileTestGroovy, compileGroovy]*.sourceCompatibility = JavaVersion.VERSION_1_8
+    [compileJava, compileTestJava, compileTestGroovy, compileGroovy]*.targetCompatibility = JavaVersion.VERSION_1_8
+    [compileJava, compileTestJava, compileTestGroovy, compileGroovy]*.options*.release = 8
 }
 
 group = ext.mainGroup
@@ -116,7 +99,7 @@ java {
 publishing {
     repositories {
         maven {
-            url = uri("${resolve("repos_url")}${((snapshot as Boolean) ? "snapshots" : "releases")}")
+            url = uri("${resolve("repos_url")}/${((snapshot as Boolean) ? "snapshots" : "releases")}")
             credentials {
                 username = resolve("repos_user")
                 password = resolve("repos_password")
