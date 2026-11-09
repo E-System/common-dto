@@ -55,7 +55,11 @@ public class DTOReference implements Serializable {
     }
 
     public static DTOReference of(String value, String name, String description) {
-        return of(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
+        return of(value, name, description, null);
+    }
+
+    public static DTOReference of(String value, String name, String description, Map<String, Object> attrs) {
+        return of(value, name, v -> new EvaluatorResult(description, attrs));
     }
 
     public static DTOReference of(String value, String name, Function<Map.Entry<String, String>, EvaluatorResult> evaluator) {
@@ -76,7 +80,11 @@ public class DTOReference implements Serializable {
     }
 
     public static <T extends Enum<T>> DTOReference ofEnum(T value, String name, String description) {
-        return ofEnum(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
+        return ofEnum(value, name, description, null);
+    }
+
+    public static <T extends Enum<T>> DTOReference ofEnum(T value, String name, String description, Map<String, Object> attrs) {
+        return ofEnum(value, name, v -> new EvaluatorResult(description, attrs));
     }
 
     public static <T extends Enum<T>> DTOReference ofEnum(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
