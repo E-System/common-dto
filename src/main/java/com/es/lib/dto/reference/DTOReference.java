@@ -42,25 +42,71 @@ public class DTOReference implements Serializable {
         this(id, name, description, null);
     }
 
-    public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items) {
+    public static Collection<DTOReference> of(Collection<Map.Entry<String, String>> items) {
+        return of(items, null);
+    }
+
+    public static Collection<DTOReference> of(Collection<Map.Entry<String, String>> items, Function<Map.Entry<String, String>, EvaluatorResult> evaluator) {
+        return items.stream().map(v -> of(v.getKey(), v.getValue(), evaluator)).collect(Collectors.toList());
+    }
+
+    public static DTOReference of(String value, String name) {
+        return of(value, name, (Function<Map.Entry<String, String>, EvaluatorResult>) null);
+    }
+
+    public static DTOReference of(String value, String name, String description) {
+        return of(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
+    }
+
+    public static DTOReference of(String value, String name, Function<Map.Entry<String, String>, EvaluatorResult> evaluator) {
+        EvaluatorResult evaluatedData = evaluator != null ? evaluator.apply(new AbstractMap.SimpleEntry<>(value, name)) : new EvaluatorResult();
+        return new DTOReference(value, name, evaluatedData.getDescription(), evaluatedData.getAttrs());
+    }
+
+    public static <T extends Enum<T>> Collection<DTOReference> ofEnum(Collection<Map.Entry<T, String>> items) {
         return create(items, null);
     }
 
-    public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
-        return items.stream().map(v -> create(v.getKey(), v.getValue(), evaluator)).collect(Collectors.toList());
+    public static <T extends Enum<T>> Collection<DTOReference> ofEnum(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+        return items.stream().map(v -> ofEnum(v.getKey(), v.getValue(), evaluator)).collect(Collectors.toList());
     }
 
-    public static <T extends Enum<T>> DTOReference create(T value, String name) {
-        return create(value, name, (Function<Map.Entry<T, String>, EvaluatorResult>) null);
+    public static <T extends Enum<T>> DTOReference ofEnum(T value, String name) {
+        return ofEnum(value, name, (Function<Map.Entry<T, String>, EvaluatorResult>) null);
     }
 
-    public static <T extends Enum<T>> DTOReference create(T value, String name, String description) {
-        return create(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
+    public static <T extends Enum<T>> DTOReference ofEnum(T value, String name, String description) {
+        return ofEnum(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
     }
 
-    public static <T extends Enum<T>> DTOReference create(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+    public static <T extends Enum<T>> DTOReference ofEnum(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
         EvaluatorResult evaluatedData = evaluator != null ? evaluator.apply(new AbstractMap.SimpleEntry<>(value, name)) : new EvaluatorResult();
         return new DTOReference(value.name(), name, evaluatedData.getDescription(), evaluatedData.getAttrs());
+    }
+
+    @Deprecated
+    public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items) {
+        return ofEnum(items, null);
+    }
+
+    @Deprecated
+    public static <T extends Enum<T>> Collection<DTOReference> create(Collection<Map.Entry<T, String>> items, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+        return items.stream().map(v -> ofEnum(v.getKey(), v.getValue(), evaluator)).collect(Collectors.toList());
+    }
+
+    @Deprecated
+    public static <T extends Enum<T>> DTOReference create(T value, String name) {
+        return ofEnum(value, name, (Function<Map.Entry<T, String>, EvaluatorResult>) null);
+    }
+
+    @Deprecated
+    public static <T extends Enum<T>> DTOReference create(T value, String name, String description) {
+        return ofEnum(value, name, v -> new EvaluatorResult(description, (Map<String, Object>) null));
+    }
+
+    @Deprecated
+    public static <T extends Enum<T>> DTOReference create(T value, String name, Function<Map.Entry<T, String>, EvaluatorResult> evaluator) {
+        return ofEnum(value, name, evaluator);
     }
 
     @Getter
