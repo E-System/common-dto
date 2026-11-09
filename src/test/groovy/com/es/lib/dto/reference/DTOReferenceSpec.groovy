@@ -28,8 +28,8 @@ class DTOReferenceSpec extends Specification {
     def "Create from items (ofEnum)"() {
         when:
         def res = DTOReference.ofEnum([
-                new AbstractMap.SimpleEntry<>(TestEnum.VALUE1, 'VAL1') as Map.Entry<Enum, String>,
-                new AbstractMap.SimpleEntry<>(TestEnum.VALUE2, 'VAL2') as Map.Entry<Enum, String>
+                Pair.of(TestEnum.VALUE1, 'VAL1') as Map.Entry<Enum, String>,
+                Pair.of(TestEnum.VALUE2, 'VAL2') as Map.Entry<Enum, String>
         ])
         then:
         res.size() == 2
@@ -42,8 +42,8 @@ class DTOReferenceSpec extends Specification {
     def "Create from items (of)"() {
         when:
         def res = DTOReference.of([
-                new AbstractMap.SimpleEntry('VALUE1', 'VAL1'),
-                new AbstractMap.SimpleEntry('VALUE2', 'VAL2')
+                Pair.of('VALUE1', 'VAL1'),
+                Pair.of('VALUE2', 'VAL2')
         ])
         then:
         res.size() == 2
